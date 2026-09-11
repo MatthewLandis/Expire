@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="expire.client/expire.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="Expire.Server/Expire.Server.csproj" />
+</Solution>
