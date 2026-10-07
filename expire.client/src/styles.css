@@ -5,13 +5,15 @@
   text-decoration: none;
 }
 
-button {
+button, input {
   all: unset;
 }
 
 :root {
+  --white: #fbfbfa;
 }
 
 body {
   padding: 2rem;
+  background-color: var(--white);
 }
