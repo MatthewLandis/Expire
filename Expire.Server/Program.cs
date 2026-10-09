@@ -1,77 +1,55 @@
-using Npgsql;
 using Expire.Server.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews(); 
-builder.Services.AddOpenApi();
-
-// Register the PostgreSQL connection pool.
-builder.Services.AddSingleton<NpgsqlDataSource>(services =>
-{
-    var configuration = services.GetRequiredService<IConfiguration>();
-
-    var connectionString = configuration.GetConnectionString("Postgres")
-        ?? throw new InvalidOperationException(
-            "Missing ConnectionStrings:Postgres in User Secrets.");
-
-    return NpgsqlDataSource.Create(connectionString);
-});
+var connectionString = builder.Configuration.GetConnectionString("Postgres")
+    ?? throw new InvalidOperationException("Set ConnectionStrings:Postgres in User Secrets.");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("Postgres")
-        ?? throw new InvalidOperationException(
-            "Missing Postgres connection string.")));
+    options.UseNpgsql(connectionString));
 
-builder.Services
-    .AddIdentityCore<IdentityUser>()
+// Includes the MVC antiforgery filters used by AuthController.
+builder.Services.AddControllersWithViews();
+builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+
+builder.Services.AddIdentityCore<IdentityUser>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddSignInManager();
 
-builder.Services
-    .AddAuthentication(IdentityConstants.ApplicationScheme)
+builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
     .AddIdentityCookies();
-
 builder.Services.AddAuthorization();
 
-builder.Services.AddAntiforgery(options =>
+builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.HeaderName = "X-XSRF-TOKEN";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        return Task.CompletedTask;
+    };
+    options.Events.OnRedirectToAccessDenied = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+        return Task.CompletedTask;
+    };
 });
 
 var app = builder.Build();
 
+app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.MapStaticAssets();
-
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-
-    // Temporary endpoint to verify the database connection.
-    app.MapGet("/api/db-test", async (NpgsqlDataSource database) =>
-    {
-        await using var command =
-            database.CreateCommand("SELECT current_database()");
-
-        var databaseName = (string?)await command.ExecuteScalarAsync();
-
-        return Results.Ok(new
-        {
-            connected = true,
-            database = databaseName
-        });
-    });
-}
-
-app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-app.MapFallbackToFile("/index.html");
+
+// Unknown API routes must return 404, not the Angular HTML page.
+app.MapFallback("/api/{**path}", () => Results.NotFound());
+app.MapFallbackToFile("index.html");
 
 app.Run();

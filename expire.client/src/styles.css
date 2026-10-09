@@ -7,13 +7,15 @@
 
 button, input {
   all: unset;
+  box-sizing: border-box;
 }
 
 :root {
-  --white: #fbfbfa;
+  --white: #f7f7f6;
+  --black: #18181b;
 }
 
 body {
-  padding: 2rem;
   background-color: var(--white);
+  color: var(--black);
 }

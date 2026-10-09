@@ -1,0 +1,42 @@
+<main class="auth-page">
+  <section class="auth-card" aria-labelledby="auth-title">
+    @if (auth.isLogIn()) {
+    <h1 id="auth-title">You’re signed in</h1>
+    <p class="intro">Welcome back, {{ auth.displayName() }}.</p>
+    <a class="primary-button" routerLink="/">Continue to Expire</a>
+    } @else {
+    <nav class="mode-links" aria-label="Authentication pages">
+      <a routerLink="/login" [class.selected]="!isRegister()"
+         [attr.aria-current]="!isRegister() ? 'page' : null">Login</a>
+      <a routerLink="/signup" [class.selected]="isRegister()"
+         [attr.aria-current]="isRegister() ? 'page' : null">Sign up</a>
+    </nav>
+    <h1 id="auth-title">{{ isRegister() ? 'Create an account' : 'Welcome back' }}</h1>
+    <p class="intro">{{ isRegister() ? 'Choose your login details' : 'Sign in to your account' }}</p>
+    <form #authForm="ngForm" (ngSubmit)="submit(authForm)" [attr.aria-busy]="auth.busy() || submitting()">
+      <label for="user">Username</label>
+      <input id="user" name="username" type="text" [(ngModel)]="username"
+             placeholder="Enter your username" autocomplete="username" autocapitalize="none"
+             spellcheck="false" [disabled]="auth.busy() || submitting()" required>
+      <label for="pass">Password</label>
+      <input id="pass" name="password" type="password" [(ngModel)]="password"
+             placeholder="Enter your password"
+             [attr.autocomplete]="isRegister() ? 'new-password' : 'current-password'"
+             [attr.aria-describedby]="isRegister() ? 'password-hint' : null"
+             [disabled]="auth.busy() || submitting()" required>
+      @if (isRegister()) {
+      <p class="hint" id="password-hint">Use at least 6 characters, including uppercase, lowercase, a number, and a symbol.</p>
+      }
+      <div aria-live="polite" aria-atomic="true">
+        @if (message()) {
+        <p class="message" [class.error]="isError()">{{ message() }}</p>
+        }
+      </div>
+      <button class="primary-button" type="submit"
+              [disabled]="authForm.invalid || !username.trim() || auth.busy() || submitting()">
+        {{ auth.busy() || submitting() ? 'Please wait…' : (isRegister() ? 'Create account' : 'Sign in') }}
+      </button>
+    </form>
+    }
+  </section>
+</main>

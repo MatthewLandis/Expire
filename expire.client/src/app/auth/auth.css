@@ -1,0 +1,165 @@
+:host {
+  display: block;
+  font-family: Arial, sans-serif;
+  color: #242426;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.auth-page {
+  min-height: calc(100dvh - 90px);
+  display: grid;
+  place-items: center;
+  padding: 40px 16px;
+  background: #f7f8f9;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  padding: 32px;
+  background: #fff;
+  border: 1px solid #e4e4e7;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 6%);
+}
+
+.mode-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 3px;
+  margin-bottom: 32px;
+  border-radius: 999px;
+  background: #efefee;
+}
+
+  .mode-links a {
+    padding: 12px;
+    text-align: center;
+    border-radius: 999px;
+    color: #242426;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+    .mode-links a.selected {
+      background: #242426;
+      color: #fff;
+    }
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.intro {
+  margin: 0 0 28px;
+  color: #71717a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 9px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  margin-bottom: 24px;
+  padding: 12px 14px;
+  border: 1px solid #d4d4d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #242426;
+  font: inherit;
+  font-size: 16px;
+}
+
+  input::placeholder {
+    color: #76767f;
+  }
+
+  input:focus {
+    outline: 2px solid #242426;
+    outline-offset: 2px;
+  }
+
+  input:disabled {
+    background: #f7f7f8;
+  }
+
+.primary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 1px solid #242426;
+  border-radius: 8px;
+  background: #242426;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+  .primary-button:hover:not(:disabled) {
+    background: #3b3b3e;
+  }
+
+  .primary-button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid #71717a;
+  outline-offset: 3px;
+}
+
+.hint {
+  margin: -12px 0 24px;
+  color: #71717a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.message {
+  margin: 0 0 20px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #edf7ef;
+  color: #235c36;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+  .message.error {
+    background: #fff1f1;
+    color: #9f2020;
+  }
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 24px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+}

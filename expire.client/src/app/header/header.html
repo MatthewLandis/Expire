@@ -1,66 +1,20 @@
 <header>
-  <h1>Expire</h1>
-
-  <div class="loginBtn">
-    @if (!isLogIn) {
-    <button type="button" (click)="toggleLogin()" [disabled]="busy">
-      Login
+  <a class="brand" routerLink="/">Expire</a>
+  <nav class="btns" aria-label="Account">
+    @if (auth.isLogIn()) {
+    <span class="display-name">{{ auth.displayName() }}</span>
+    <button type="button" (click)="logout()" [disabled]="auth.busy()">
+      {{ auth.busy() ? 'Please wait…' : 'Log out' }}
     </button>
     } @else {
-    <span>{{ displayName }}</span>
-    <button type="button" (click)="logout()" [disabled]="busy">
-      Log out
-    </button>
+    <a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Login</a>
+    <a routerLink="/signup" routerLinkActive="active" ariaCurrentWhenActive="page">Sign up</a>
     }
-  </div>
-
-  @if (showLogInTab) {
-  <form [class.closing]="isClosing"
-        #authForm="ngForm"
-        (ngSubmit)="authForm.valid && submit()">
-    <h2>{{ isRegister ? 'Create an account' : 'Welcome back' }}</h2>
-    <p>{{ isRegister ? 'Choose your login details' : 'Sign in to your account' }}</p>
-
-    <label for="user">Username</label>
-    <div class="inputField">
-      <i class="bx bx-user"></i>
-      <input id="user"
-             name="username"
-             type="text"
-             [(ngModel)]="username"
-             placeholder="Type your username"
-             autocomplete="username"
-             minlength="3"
-             maxlength="256"
-             [disabled]="busy"
-             required>
-    </div>
-
-    <label for="pass">Password</label>
-    <div class="inputField">
-      <i class="bx bx-lock"></i>
-      <input id="pass"
-             name="password"
-             type="password"
-             [(ngModel)]="password"
-             placeholder="Type your password"
-             [attr.autocomplete]="isRegister ? 'new-password' : 'current-password'"
-             maxlength="128"
-             [disabled]="busy"
-             required>
-    </div>
-
-    <button type="submit" [disabled]="authForm.invalid || busy">
-      {{ busy ? 'Please wait…' : (isRegister ? 'Create account' : 'Sign in') }}
-    </button>
-
-    <button type="button" (click)="toggleMode()" [disabled]="busy">
-      {{ isRegister ? 'Already have an account? Sign in' : 'Sign up here' }}
-    </button>
-  </form>
-  }
-
-  @if (message) {
-  <p role="status">{{ message }}</p>
-  }
+  </nav>
 </header>
+@if (auth.sessionError()) {
+<div class="session-error" role="alert">
+  {{ auth.sessionError() }}
+  <button type="button" (click)="auth.refreshSession()" [disabled]="auth.busy()">Retry</button>
+</div>
+}
