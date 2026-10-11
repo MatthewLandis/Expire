@@ -1,122 +1,61 @@
 @font-face {
   font-family: HelveticaNeue;
   src: url('/fonts/HelveticaNeue-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-display: swap;
-}
-
-:host {
-  display: block;
-  font-family: Arial, sans-serif;
-  color: #242426;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 header {
-  background: #fff;
-  border-bottom: 1px solid #e4e4e7;
-  padding: 1rem clamp(1rem, calc((100vw - 80rem) / 2), 20rem);
+  background: white;
+  border: 1px solid #e4e4e7;
+  border-radius: 1.5rem;
+  padding: 1rem clamp(1.25rem, calc((100vw - 80rem) / 2), 20rem); /*Fits horizontally*/
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
+  margin: 0 1rem;
+  width: calc(100vw - 2rem); /*full size across with margins*/
+  height: 3rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .brand {
-  font-family: HelveticaNeue, 'Helvetica Neue', Arial, sans-serif;
-  font-size: clamp(2rem, 4vw, 2.625rem);
-  font-weight: 300;
-  color: inherit;
-  text-decoration: none;
+  position: relative;
+  top: -1px; /*Fixed centering for font*/
+  font-family: HelveticaNeue, Arial, sans-serif;
+  font-size: 2rem;
+  letter-spacing: 4px;
+  font-weight: bold;
 }
 
 .btns {
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  gap: 3px;
 }
 
-  .btns > a, .btns > button {
-    display: inline-block;
-    padding: 1rem;
-    border-radius: 10px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    font: inherit;
+  .btns a {
+    padding: 0.5rem 1rem;
     font-size: 14px;
-    text-decoration: none;
-    transition: transform .2s ease, border-color .2s ease;
+    min-width: 4rem;
+    text-align: center;
+    color: white;
+    font-family: Arial;
+    font-weight: bold;
   }
 
-    .btns > a:first-child {
-      background: #f1f1f3;
-      color: #242426;
-    }
+  .btns a:first-child {
+    background-color: grey;
+    border-radius: 20px 5px 5px 20px;
+  }
 
-    .btns > a:last-child, .btns > button {
-      border-color: #242426;
-      background: #242426;
-      color: #fff;
-    }
+  .btns a:last-child {
+    background-color: var(--black);
+    border-radius: 5px 20px 20px 5px;
+  }
 
-      .btns > a:hover, .btns > button:hover:not(:disabled) {
-        border-color: #242426;
-        transform: translateY(-1px);
-      }
+  .btns a:hover {
+      opacity: 40%;
+  }
 
-    .btns > a.active {
-      text-decoration: underline;
-      text-underline-offset: 4px;
-    }
-
-a:focus-visible, button:focus-visible {
-  outline: 3px solid #71717a;
-  outline-offset: 3px;
-}
-
-button:disabled {
-  opacity: .55;
-  cursor: not-allowed;
-}
-
-.display-name {
+.displayName {
   max-width: 180px;
   overflow-wrap: anywhere;
-}
-
-.session-error {
-  padding: 12px 24px;
-  background: #fff1f1;
-  color: #9f2020;
-  text-align: center;
-  font-size: 14px;
-}
-
-  .session-error button {
-    min-height: 44px;
-    border: 0;
-    background: none;
-    color: inherit;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-
-@media (max-width: 480px) {
-  .btns {
-    gap: .5rem;
-  }
-
-    .btns > a, .btns > button {
-      padding: .8rem;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .btns > a, .btns > button {
-    transition: none;
-  }
 }

@@ -1,0 +1,51 @@
+<section>
+  <nav>
+    <a routerLink="/login">Log In</a>
+    <a routerLink="/signup" class="active">Sign Up</a>
+  </nav>
+  <form #signupForm="ngForm" (ngSubmit)="onSignup()">
+    <header>
+      <h1>Welcome to Expire!</h1>
+      <p>Create your account to track expirations</p>
+    </header>
+    <div class="field">
+      <label for="user">Username</label>
+      <i class='bx bx-user'></i>
+      <input id="user"
+             name="username"
+             [(ngModel)]="username"
+             type="text"
+             placeholder="Enter your username"
+             spellcheck="false"
+             required>
+    </div>
+    <div class="field">
+      <label for="pass">Password</label>
+      <i class='bx bx-lock'></i>
+      <input id="pass"
+             name="password"
+             [(ngModel)]="password"
+             type="password"
+             placeholder="Enter your password"
+             required>
+    </div>
+    <div class="requirments">
+      <p>Your password must:</p>
+      <ul>
+        <li>Be 8+ characters long.</li>
+        <li>Include uppercase and lowercase characters.</li>
+        <li>Include at least one number or symbol.</li>
+      </ul>
+    </div>
+    <button class="submit-button"
+            type="submit"
+            [disabled]="signupForm.invalid || isSubmitting">
+      {{ isSubmitting ? 'Creating account...' : 'Sign up' }}
+    </button>
+
+    <p role="alert" [hidden]="!message">
+      {{ message }}
+    </p>
+    <p>Already have an account? <em><a routerLink="/signup">Log In</a></em></p>
+  </form>
+</section>

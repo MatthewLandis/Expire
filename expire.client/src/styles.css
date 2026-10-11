@@ -2,20 +2,21 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  text-decoration: none;
 }
 
-button, input {
+button, input, a {
   all: unset;
-  box-sizing: border-box;
+  cursor: pointer;
 }
 
 :root {
   --white: #f7f7f6;
   --black: #18181b;
+  --faded: #697983;
 }
 
 body {
   background-color: var(--white);
   color: var(--black);
+  font-family: Arial;
 }

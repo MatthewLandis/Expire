@@ -1,0 +1,41 @@
+<section>
+  <nav>
+    <a routerLink="/login" class="active">Log In</a>
+    <a routerLink="/signup">Sign Up</a>
+  </nav>
+  <form #loginForm="ngForm" (ngSubmit)="onLogin()">
+    <header>
+      <h1>Welcome back</h1>
+      <p>Sign in to your account</p>
+    </header>
+    <div class="field">
+      <label for="user">Username</label>
+      <i class='bx bx-user'></i>
+      <input id="user"
+             name="username"
+             type="text"
+             [(ngModel)]="username"
+             placeholder="Enter your username"
+             autocomplete="username"
+             spellcheck="false"
+             required>
+    </div>
+    <div class="field">
+      <label for="pass">Password</label>
+      <i class='bx bx-lock'></i>
+      <input id="pass"
+             name="password"
+             type="password"
+             [(ngModel)]="password"
+             placeholder="Enter your password"
+             autocomplete="current-password"
+             required>
+    </div>
+    <button class="submit-button"
+            type="submit"
+            [disabled]="loginForm.invalid">
+      Log In
+    </button>
+    <p>Don't have an account? <em><a routerLink="/signup">Sign up</a></em></p>
+  </form>
+</section>

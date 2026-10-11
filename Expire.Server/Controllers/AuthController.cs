@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,59 +14,69 @@ public class AuthController : ControllerBase
     private readonly UserManager<IdentityUser> _users;
     private readonly SignInManager<IdentityUser> _signIn;
 
-    public AuthController(UserManager<IdentityUser> users, SignInManager<IdentityUser> signIn)
+    public AuthController(
+        UserManager<IdentityUser> users,
+        SignInManager<IdentityUser> signIn)
     {
         _users = users;
         _signIn = signIn;
     }
 
-    [HttpGet("csrf")]
-    public IActionResult Csrf([FromServices] IAntiforgery antiforgery)
+    // Check whether the browser is signed in.
+    [HttpGet("me")]
+    public IActionResult Me()
     {
-        var tokens = antiforgery.GetAndStoreTokens(HttpContext);
-        // Angular reads this token; the authentication cookie stays HttpOnly.
-        Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken!, new CookieOptions
+        return Ok(new
         {
-            HttpOnly = false,
-            Secure = true,
-            SameSite = SameSiteMode.Strict,
-            Path = "/"
+            authenticated = User.Identity?.IsAuthenticated == true,
+            username = User.Identity?.Name
         });
-        return NoContent();
     }
 
-    [HttpGet("me")]
-    public IActionResult Me() => Ok(new
-    {
-        authenticated = User.Identity?.IsAuthenticated == true,
-        username = User.Identity?.Name
-    });
-
+    // Create an account.
     [HttpPost("register")]
     public async Task<IActionResult> Register(Credentials request)
     {
-        var user = new IdentityUser { UserName = request.Username.Trim() };
-        var result = await _users.CreateAsync(user, request.Password);
-        if (!result.Succeeded)
-            return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
+        var user = new IdentityUser
+        {
+            UserName = request.Username.Trim()
+        };
 
-        // Registration saves the account. Login is a separate action.
+        var result = await _users.CreateAsync(user, request.Password);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(new
+            {
+                errors = result.Errors.Select(error => error.Description)
+            });
+        }
+
         return Ok(new { message = "Account created. Please sign in." });
     }
 
+    // Check the password and create the login cookie.
     [HttpPost("login")]
     public async Task<IActionResult> Login(Credentials request)
     {
         var username = request.Username.Trim();
-        var result = await _signIn.PasswordSignInAsync(username, request.Password,
-            isPersistent: false, lockoutOnFailure: true);
-        if (!result.Succeeded)
-            return Unauthorized(new { message = "Unable to sign in. Check your details or try again later." });
 
-        // Avoid a second request whose failure could hide a successful login.
+        var result = await _signIn.PasswordSignInAsync(
+            username,
+            request.Password,
+            isPersistent: false,
+            lockoutOnFailure: true
+        );
+
+        if (!result.Succeeded)
+        {
+            return Unauthorized(new { message = "Unable to sign in." });
+        }
+
         return Ok(new { authenticated = true, username });
     }
 
+    // Remove the login cookie.
     [Authorize]
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
@@ -77,13 +86,18 @@ public class AuthController : ControllerBase
     }
 }
 
+// The username and password Angular sends to the server.
 public class Credentials
 {
     [Required]
-    [StringLength(256, MinimumLength = 3)]
+    [StringLength(256)]
     public string Username { get; set; } = "";
 
     [Required]
-    [StringLength(128)]
+    [StringLength(128, MinimumLength = 8,
+        ErrorMessage = "Password must be between 8 and 128 characters.")]
+    [RegularExpression(
+        @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9\p{P}\p{S}]).+$",
+        ErrorMessage = "Password must include uppercase and lowercase letters, and at least one number or symbol.")]
     public string Password { get; set; } = "";
 }
