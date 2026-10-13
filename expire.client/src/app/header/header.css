@@ -238,3 +238,16 @@ header > p[role="alert"] {
     max-width: 90px;
   }
 }
+.btns > .fridge-nav {
+  margin-right: 8px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  background: transparent;
+  color: #103247;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+  .btns > .fridge-nav:hover {
+    background: #edf2f5;
+  }

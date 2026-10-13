@@ -4,6 +4,9 @@
     @if (loading()) {
     <span>Loading...</span>
     } @else if (auth.user().authenticated) {
+    <button class="fridge-nav" type="button">
+      My Fridge
+    </button>
     <details class="account">
       <summary class="account-button">
         <i class="bx bx-user-circle" aria-hidden="true"></i>

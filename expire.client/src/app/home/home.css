@@ -5,3 +5,55 @@ section {
   justify-content: center;
   height: 100vh;
 }
+
+h1 {
+  font-size: 40pt;
+  font-family: HelveticaNeue, Arial, sans-serif;
+  letter-spacing: 4px;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 18pt;
+  width: 37rem;
+  text-align: center;
+  color: var(--faded);
+  letter-spacing: 1px;
+  line-height: 1.3;
+}
+
+img {
+  width: 20rem;
+}
+
+.github-link {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  color: var(--faded);
+  font-size: 12px;
+}
+
+  .github-link:hover {
+    color: var(--black);
+    text-decoration: underline;
+  }
+
+.open-fridge-button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #103247;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+  .open-fridge-button:hover {
+    background: #e8eef2;
+  }
+
+  .add-item-button:focus-visible,
+  .open-fridge-button:focus-visible {
+    outline: 2px solid #103247;
+    outline-offset: 4px;
+  }
