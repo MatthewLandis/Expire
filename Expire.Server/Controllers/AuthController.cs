@@ -1,13 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// Provides input validation attributes:
+// [Required], [StringLength], and [RegularExpression].
+using System.ComponentModel.DataAnnotations;
+
+// Provides [Authorize], which restricts access to logged-in users.
 using Microsoft.AspNetCore.Authorization;
+
+// Provides the account and sign-in tools:
+// IdentityUser, UserManager, and SignInManager.
 using Microsoft.AspNetCore.Identity;
+
+// Provides the tools for building your API controller:
+// ControllerBase, IActionResult, [ApiController],
+// [Route], [HttpGet], [HttpPost], and [ResponseCache].
 using Microsoft.AspNetCore.Mvc;
 
 namespace Expire.Server.Controllers;
 
 [ApiController]
 [Route("api/auth")]
-[AutoValidateAntiforgeryToken]
 [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
 public class AuthController : ControllerBase
 {
@@ -37,46 +47,29 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(Credentials request)
     {
-        var user = new IdentityUser
-        {
-            UserName = request.Username.Trim()
-        };
-
+        var user = new IdentityUser { UserName = request.Username };
         var result = await _users.CreateAsync(user, request.Password);
 
-        if (!result.Succeeded)
-        {
-            return BadRequest(new
-            {
-                errors = result.Errors.Select(error => error.Description)
-            });
-        }
-
-        return Ok(new { message = "Account created. Please sign in." });
+        return result.Succeeded
+            ? BadRequest(new { message = "Unable to create account." })
+            : Ok(new { message = "Account created. Please sign in." });
     }
 
-    // Check the password and create the login cookie.
     [HttpPost("login")]
     public async Task<IActionResult> Login(Credentials request)
     {
         var username = request.Username.Trim();
-
         var result = await _signIn.PasswordSignInAsync(
             username,
             request.Password,
             isPersistent: false,
-            lockoutOnFailure: true
-        );
+            lockoutOnFailure: true);
 
-        if (!result.Succeeded)
-        {
-            return Unauthorized(new { message = "Unable to sign in." });
-        }
-
-        return Ok(new { authenticated = true, username });
+        return result.Succeeded
+           ? Ok(new { authenticated = true, username })
+           : Unauthorized(new { message = "Unable to sign in." });
     }
 
-    // Remove the login cookie.
     [Authorize]
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
@@ -86,7 +79,6 @@ public class AuthController : ControllerBase
     }
 }
 
-// The username and password Angular sends to the server.
 public class Credentials
 {
     [Required]

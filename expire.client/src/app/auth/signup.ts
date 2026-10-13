@@ -24,7 +24,6 @@ export class Signup {
   onSignup() {
     this.message = '';
     this.isSubmitting = true;
-
     this.http.post('/api/auth/register', {
       username: this.username,
       password: this.password
@@ -36,7 +35,7 @@ export class Signup {
     ).subscribe({
       next: () => {
         this.password = '';
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/login');
       },
       error: () => {
         this.message = 'Registration failed. Check your details and try again.';

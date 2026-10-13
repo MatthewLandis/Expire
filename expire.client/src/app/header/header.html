@@ -1,11 +1,33 @@
 <header>
   <a class="brand" routerLink="/">Expire</a>
   <nav class="btns">
-    @if(!isLogIn) {
+    @if (loading()) {
+    <span>Loading...</span>
+    } @else if (auth.user().authenticated) {
+    <details class="account">
+      <summary class="account-button">
+        <i class="bx bx-user-circle" aria-hidden="true"></i>
+        <span class="displayName">{{ auth.user().username }}</span>
+        <span class="account-chevron" aria-hidden="true"></span>
+      </summary>
+
+      <div class="account-dropdown">
+        <a routerLink="/login">My Profile</a>
+
+        <button type="button"
+                (click)="onLogout()"
+                [disabled]="loggingOut()">
+          {{ loggingOut() ? 'Logging out...' : 'Log out' }}
+        </button>
+      </div>
+    </details>
+    } @else {
     <a routerLink="/login">Log In</a>
     <a routerLink="/signup">Sign Up</a>
-    } @else {
-    <button type="button">Log out</button>
     }
   </nav>
+
+  @if (message()) {
+  <p role="alert">{{ message() }}</p>
+  }
 </header>

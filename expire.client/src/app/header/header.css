@@ -3,59 +3,238 @@
   src: url('/fonts/HelveticaNeue-Light.ttf') format('truetype');
 }
 
+/* Header */
+
 header {
-  background: white;
-  border: 1px solid #e4e4e7;
-  border-radius: 1.5rem;
-  padding: 1rem clamp(1.25rem, calc((100vw - 80rem) / 2), 20rem); /*Fits horizontally*/
+  box-sizing: border-box;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 1rem;
-  width: calc(100vw - 2rem); /*full size across with margins*/
+  gap: 1rem;
+  width: calc(100vw - 2rem);
   height: 3rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin: 0 1rem;
+  padding: 0 clamp(1.25rem, calc((100vw - 80rem) / 2), 20rem);
+  background: white;
+  border: 1px solid #e4e4e7;
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
 }
 
 .brand {
   position: relative;
-  top: -1px; /*Fixed centering for font*/
+  top: -1px;
+  color: var(--black, #18181b);
   font-family: HelveticaNeue, Arial, sans-serif;
   font-size: 2rem;
   letter-spacing: 4px;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .btns {
   display: flex;
+  align-items: center;
   gap: 3px;
+  min-width: 0;
+  font-family: Arial, sans-serif;
 }
 
-  .btns a {
+  /* Direct links only: Log In and Sign Up */
+
+  .btns > a {
     padding: 0.5rem 1rem;
-    font-size: 14px;
     min-width: 4rem;
-    text-align: center;
     color: white;
-    font-family: Arial;
+    font-size: 14px;
     font-weight: bold;
+    text-align: center;
+    text-decoration: none;
   }
 
-  .btns a:first-child {
-    background-color: grey;
-    border-radius: 20px 5px 5px 20px;
+    .btns > a:first-child {
+      background: grey;
+      border-radius: 20px 5px 5px 20px;
+    }
+
+    .btns > a:last-child {
+      background: var(--black, #18181b);
+      border-radius: 5px 20px 20px 5px;
+    }
+
+    .btns > a:hover {
+      opacity: 0.7;
+    }
+
+/* Logged-in account button */
+
+.account {
+  position: relative;
+  min-width: 0;
+}
+
+.account-button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #103247;
+  color: #ff9500;
+  font-weight: bold;
+  list-style: none;
+  cursor: pointer;
+}
+
+  .account-button::-webkit-details-marker {
+    display: none;
   }
 
-  .btns a:last-child {
-    background-color: var(--black);
-    border-radius: 5px 20px 20px 5px;
+  .account-button:hover {
+    background: #0c293b;
   }
 
-  .btns a:hover {
-      opacity: 40%;
+  .account-button i {
+    font-size: 18px;
+    flex-shrink: 0;
   }
 
 .displayName {
+  min-width: 0;
   max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-chevron {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  margin-left: 3px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+}
+
+.account[open] .account-chevron {
+  transform: translateY(2px) rotate(225deg);
+}
+
+/* Dropdown menu */
+
+.account-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 100;
+  box-sizing: border-box;
+  width: 210px;
+  max-width: calc(100vw - 3rem);
+  padding: 6px 0;
+  background: #262626;
+  color: #eee;
+  border-radius: 6px;
+  box-shadow: 0 6px 16px rgb(0 0 0 / 25%);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+  .account-dropdown a,
+  .account-dropdown button {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 14px 16px;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+    .account-dropdown a:hover,
+    .account-dropdown button:hover {
+      background: #373737;
+      color: #ff9500;
+    }
+
+  .account-dropdown button {
+    border-top: 1px solid #494949;
+  }
+
+    .account-dropdown button:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+
+/* Keyboard focus */
+
+.brand:focus-visible,
+.btns > a:focus-visible,
+.account-button:focus-visible {
+  outline: 2px solid #ff9500;
+  outline-offset: 3px;
+}
+
+.account-dropdown a:focus-visible,
+.account-dropdown button:focus-visible {
+  outline: 2px solid #ff9500;
+  outline-offset: -3px;
+}
+
+/* Loading and error messages */
+
+.btns > span {
+  color: #71717a;
+  font-size: 14px;
+}
+
+header > p[role="alert"] {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 101;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
+  padding: 10px 14px;
+  background: #fff1f2;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
   overflow-wrap: anywhere;
+}
+
+/* Small screens */
+
+@media (max-width: 480px) {
+  header {
+    gap: 0.5rem;
+    padding: 0 0.75rem;
+  }
+
+  .brand {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+  }
+
+  .btns > a {
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .account-button {
+    padding: 8px 12px;
+  }
+
+  .displayName {
+    max-width: 90px;
+  }
 }

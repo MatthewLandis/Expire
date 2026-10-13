@@ -12,7 +12,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Includes the MVC antiforgery filters used by AuthController.
 builder.Services.AddControllersWithViews();
-builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
 builder.Services.AddIdentityCore<IdentityUser>()
     .AddEntityFrameworkStores<AppDbContext>()
