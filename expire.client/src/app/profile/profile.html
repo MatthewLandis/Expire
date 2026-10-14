@@ -1,0 +1,36 @@
+<main class="profile-page">
+  <section class="profile-card" aria-labelledby="profile-title">
+    <div class="profile-heading">
+      <p class="eyebrow">EXPIRE / PROFILE</p>
+
+      <div class="profile-avatar" aria-hidden="true">
+        {{ auth.user().username?.charAt(0)?.toUpperCase() || '?' }}
+      </div>
+
+      <div class="profile-identity">
+        <h1 id="profile-title">
+          {{ auth.user().username || 'Your profile' }}
+        </h1>
+
+        <p class="profile-handle">
+          &#64;{{ auth.user().username || 'username' }}
+        </p>
+      </div>
+
+      <button class="edit-button" type="button">
+        Edit profile
+        <i class="bx bx-edit-alt" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="profile-bio">
+      <h2>About</h2>
+      <p>This user has not yet added a bio.</p>
+    </div>
+
+    <footer class="profile-footer">
+      <span>A little less waste. A little more organised.</span>
+      <a routerLink="/">Back to home ↗</a>
+    </footer>
+  </section>
+</main>

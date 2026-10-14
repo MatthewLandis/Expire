@@ -1,0 +1,204 @@
+:host {
+  display: block;
+  color: var(--black);
+  font-family: Arial, sans-serif;
+}
+
+.profile-page,
+.profile-page * {
+  box-sizing: border-box;
+}
+
+/* Center the card beneath the header */
+
+.profile-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100dvh - 3rem);
+  padding: 40px 24px;
+
+}
+
+/* Card */
+
+.profile-card {
+  width: 100%;
+  max-width: 680px;
+  padding: 40px;
+  background: white;
+  border: 1px solid #e4e4e7;
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+}
+
+/* Avatar and edit button */
+
+.profile-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.profile-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--black);
+  color: var(--white);
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.edit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 10px 16px;
+  border: 1px solid rgb(105 121 131 / 25%);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--black);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+  .edit-button i {
+    font-size: 16px;
+  }
+
+  .edit-button:hover {
+    border-color: var(--black);
+    background: var(--black);
+    color: var(--white);
+  }
+
+/* Name */
+
+.profile-identity {
+  margin-top: 28px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--faded);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.profile-identity h1 {
+  margin: 0;
+  color: var(--black);
+  font-size: clamp(30px, 5vw, 42px);
+  font-weight: 500;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.profile-handle {
+  margin: 10px 0 0;
+  color: var(--faded);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Bio */
+
+.profile-bio {
+  margin-top: 32px;
+  padding: 24px 0;
+  border-top: 1px solid rgb(105 121 131 / 20%);
+  border-bottom: 1px solid rgb(105 121 131 / 20%);
+}
+
+  .profile-bio h2 {
+    margin: 0 0 10px;
+    color: var(--black);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .profile-bio p {
+    margin: 0;
+    color: var(--faded);
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+
+/* Footer */
+
+.profile-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 24px;
+  color: var(--faded);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+  .profile-footer a {
+    color: var(--black);
+    text-decoration: none;
+    text-underline-offset: 4px;
+  }
+
+    .profile-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Keyboard navigation */
+
+    .edit-button:focus-visible,
+    .profile-footer a:focus-visible {
+      outline: 2px solid var(--faded);
+      outline-offset: 4px;
+    }
+.profile-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+  .profile-heading .eyebrow {
+    margin: 0 0 24px;
+    color: var(--black);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 3px;
+  }
+
+  .profile-heading .profile-identity {
+    margin-top: 20px;
+  }
+
+  .profile-heading .edit-button {
+    margin-top: 20px;
+  }
+.profile-card {
+  position: relative;
+  padding-top: 88px;
+}
+
+.profile-heading .edit-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  margin: 0;
+}

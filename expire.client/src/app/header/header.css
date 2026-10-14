@@ -3,11 +3,7 @@
   src: url('/fonts/HelveticaNeue-Light.ttf') format('truetype');
 }
 
-/* Header */
-
 header {
-  box-sizing: border-box;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -20,106 +16,62 @@ header {
   border: 1px solid #e4e4e7;
   border-radius: 1.5rem;
   box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+  color: white;
+  font-weight: 600;
 }
 
 .brand {
   position: relative;
   top: -1px;
-  color: var(--black, #18181b);
+  color: var(--black);
   font-family: HelveticaNeue, Arial, sans-serif;
   font-size: 2rem;
   letter-spacing: 4px;
   font-weight: bold;
-  text-decoration: none;
 }
 
 .btns {
   display: flex;
-  align-items: center;
   gap: 3px;
-  min-width: 0;
-  font-family: Arial, sans-serif;
 }
 
-  /* Direct links only: Log In and Sign Up */
-
-  .btns > a {
+  .btns a {
     padding: 0.5rem 1rem;
-    min-width: 4rem;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
+    width: 4rem;
     text-align: center;
-    text-decoration: none;
   }
 
-    .btns > a:first-child {
+    .btns a:first-child {
       background: grey;
       border-radius: 20px 5px 5px 20px;
     }
 
-    .btns > a:last-child {
-      background: var(--black, #18181b);
+    .btns a:last-child {
+      background: var(--black);
       border-radius: 5px 20px 20px 5px;
     }
 
-    .btns > a:hover {
+    .btns a:hover {
       opacity: 0.7;
     }
 
-/* Logged-in account button */
-
-.account {
-  position: relative;
-  min-width: 0;
-}
 
 .account-button {
+  padding: 0.5rem 1rem;
   display: flex;
+  gap: 5px;
   align-items: center;
-  gap: 7px;
-  padding: 8px 18px;
-  border-radius: 999px;
-  background: #103247;
-  color: #ff9500;
-  font-weight: bold;
-  list-style: none;
-  cursor: pointer;
+  background: grey;
+  border-radius: 1.5rem;
 }
-
-  .account-button::-webkit-details-marker {
-    display: none;
-  }
 
   .account-button:hover {
     background: #0c293b;
   }
 
-  .account-button i {
-    font-size: 18px;
-    flex-shrink: 0;
-  }
 
-.displayName {
-  min-width: 0;
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.account-chevron {
-  width: 6px;
-  height: 6px;
-  flex-shrink: 0;
-  margin-left: 3px;
-  border-right: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
-  transform: translateY(-2px) rotate(45deg);
-}
-
-.account[open] .account-chevron {
-  transform: translateY(2px) rotate(225deg);
+.account[open] i:last-child {
+  transform: rotate(180deg);
 }
 
 /* Dropdown menu */
@@ -187,67 +139,73 @@ header {
   outline-offset: -3px;
 }
 
-/* Loading and error messages */
-
-.btns > span {
-  color: #71717a;
-  font-size: 14px;
-}
-
-header > p[role="alert"] {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  z-index: 101;
-  box-sizing: border-box;
-  max-width: 100%;
-  margin: 0;
-  padding: 10px 14px;
-  background: #fff1f2;
-  color: #9f1239;
-  border: 1px solid #fecdd3;
-  border-radius: 8px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  overflow-wrap: anywhere;
-}
-
-/* Small screens */
-
-@media (max-width: 480px) {
-  header {
-    gap: 0.5rem;
-    padding: 0 0.75rem;
-  }
-
-  .brand {
-    font-size: 1.5rem;
-    letter-spacing: 2px;
-  }
-
-  .btns > a {
-    min-width: 0;
-    padding: 0.5rem 0.75rem;
-  }
-
-  .account-button {
-    padding: 8px 12px;
-  }
-
-  .displayName {
-    max-width: 90px;
-  }
-}
-.btns > .fridge-nav {
-  margin-right: 8px;
-  padding: 8px 12px;
-  border-radius: 20px;
+.fridge-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--faded);
+  border-radius: 1.5rem;
   background: transparent;
-  color: #103247;
-  font-size: 14px;
-  font-weight: bold;
+  color: var(--black);
+
 }
 
-  .btns > .fridge-nav:hover {
-    background: #edf2f5;
+  .fridge-nav:hover {
+    background: var(--black);
+    border-color: var(--black);
+    color: var(--white);
+  }
+
+  .fridge-nav:focus-visible {
+    outline: 2px solid var(--faded);
+    outline-offset: 3px;
+  }
+
+
+.header-search {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+  max-width: 360px;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  max-width: 360px;
+  height: 34px;
+  padding: 0 12px;
+  background: var(--white, #f7f7f6);
+  border: 1px solid #e4e4e7;
+  color: var(--faded, #697983);
+}
+
+  .header-search i {
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+
+  .header-search input {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--black, #18181b);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+
+    .header-search input::placeholder {
+      color: var(--faded, #697983);
+    }
+
+  .header-search:focus-within {
+    border-color: var(--faded, #697983);
+    outline: 2px solid rgb(105 121 131 / 20%);
+    outline-offset: 2px;
   }

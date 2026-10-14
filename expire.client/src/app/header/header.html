@@ -1,27 +1,25 @@
 <header>
   <a class="brand" routerLink="/">Expire</a>
   <nav class="btns">
-    @if (loading()) {
-    <span>Loading...</span>
-    } @else if (auth.user().authenticated) {
-    <button class="fridge-nav" type="button">
-      My Fridge
-    </button>
+    @if (auth.user().authenticated) {
+    <div class="header-search">
+      <i class="bx bx-search" aria-hidden="true"></i>
+
+      <input type="search"
+             placeholder="Search your fridge..."
+             aria-label="Search your fridge" />
+    </div>
+    <button class="fridge-nav" type="button">My Fridge</button>
     <details class="account">
       <summary class="account-button">
-        <i class="bx bx-user-circle" aria-hidden="true"></i>
-        <span class="displayName">{{ auth.user().username }}</span>
-        <span class="account-chevron" aria-hidden="true"></span>
+        <i class="bx bx-user-circle"></i>
+        <span>My Account</span>
+        <i class='bx bx-chevron-up'></i>
       </summary>
-
       <div class="account-dropdown">
-        <a routerLink="/login">My Profile</a>
-
-        <button type="button"
-                (click)="onLogout()"
-                [disabled]="loggingOut()">
-          {{ loggingOut() ? 'Logging out...' : 'Log out' }}
-        </button>
+        <span class="displayName">{{ auth.user().username }}</span>
+        <a routerLink="/profile">My Profile</a>
+        <button type="button" (click)="onLogout()">Log out</button>
       </div>
     </details>
     } @else {
@@ -29,8 +27,4 @@
     <a routerLink="/signup">Sign Up</a>
     }
   </nav>
-
-  @if (message()) {
-  <p role="alert">{{ message() }}</p>
-  }
 </header>

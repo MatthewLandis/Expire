@@ -58,7 +58,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(Credentials request)
     {
-        var username = request.Username.Trim();
+        var username = request.Username;
         var result = await _signIn.PasswordSignInAsync(
             username,
             request.Password,

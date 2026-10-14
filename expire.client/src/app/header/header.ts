@@ -13,24 +13,14 @@ export class Header implements OnInit {
   readonly auth = inject(AuthService);
   private router = inject(Router);
 
-  readonly loading = signal(true);
   readonly loggingOut = signal(false);
-  readonly message = signal('');
 
   ngOnInit() {
-    this.auth.loadUser().pipe(
-      finalize(() => this.loading.set(false))
-    ).subscribe({
-      error: () => {
-        this.message.set('Unable to check your login status.');
-      }
-    });
+    this.auth.loadUser().subscribe();
   }
 
   onLogout() {
     if (this.loggingOut()) return;
-
-    this.message.set('');
     this.loggingOut.set(true);
 
     this.auth.logout().pipe(
@@ -40,7 +30,6 @@ export class Header implements OnInit {
         this.router.navigateByUrl('/login');
       },
       error: () => {
-        this.message.set('Unable to log out. Please try again.');
       }
     });
   }
