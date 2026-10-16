@@ -17,7 +17,7 @@ header {
   border-radius: 1.5rem;
   box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
   color: white;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .brand {
@@ -27,28 +27,26 @@ header {
   font-family: HelveticaNeue, Arial, sans-serif;
   font-size: 2rem;
   letter-spacing: 4px;
-  font-weight: bold;
 }
 
 .btns {
   display: flex;
-  gap: 3px;
+  gap: 0.5rem;
 }
 
   .btns a {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.5rem;
     width: 4rem;
     text-align: center;
+    border-radius: 999px;
   }
 
     .btns a:first-child {
       background: grey;
-      border-radius: 20px 5px 5px 20px;
     }
 
     .btns a:last-child {
       background: var(--black);
-      border-radius: 5px 20px 20px 5px;
     }
 
     .btns a:hover {

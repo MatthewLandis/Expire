@@ -41,19 +41,13 @@ img {
 
 .open-fridge-button {
   padding: 8px 12px;
-  border-radius: 8px;
-  color: #103247;
-  font-family: Arial, sans-serif;
+  border-radius: 999px;
+  background-color: var(--black);
+  color: white;
   font-size: 18px;
-  font-weight: 600;
+  padding: 1rem 3rem;
 }
 
   .open-fridge-button:hover {
-    background: #e8eef2;
-  }
-
-  .add-item-button:focus-visible,
-  .open-fridge-button:focus-visible {
-    outline: 2px solid #103247;
-    outline-offset: 4px;
+    opacity: 0.7;
   }

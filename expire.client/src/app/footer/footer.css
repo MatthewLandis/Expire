@@ -1,30 +1,36 @@
 
 footer {
-    position: absolute;
-    bottom: 0;
+  position: absolute;
+  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   width: calc(100% - 2rem);
-  min-height: 3rem;
+  height: 3rem;
   margin: 1rem;
-  padding: 0.5rem clamp( 1.25rem, calc((100vw - 80rem) / 2), 20rem );
-  background: white;
-  border: 1px solid #e4e4e7;
-  border-radius: 1.5rem;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
-  color: var(--black, #18181b);
-  font-family: Arial, sans-serif;
+  color: var(--faded);
 }
 
-p {
-  color: var(--faded);
-  font-size: 12px;
+nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+li:hover{
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .github-link {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
