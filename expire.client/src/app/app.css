@@ -1,4 +1,29 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+}
+
 app-header {
-  position: absolute;
-  top: 10px;
+  position: static;
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+  padding-top: 10px;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+router-outlet {
+  display: none;
+}
+
+app-footer {
+  position: static;
+  display: block;
+  flex-shrink: 0;
 }

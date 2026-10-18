@@ -1,61 +1,38 @@
-
 footer {
   position: absolute;
   bottom: 0;
-  display: flex;
+  display: grid;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
   gap: 1rem;
-  width: calc(100% - 2rem);
-  height: 3rem;
+  width: calc(100vw - 2rem);
   margin: 1rem;
   color: var(--faded);
+  font-size: 18px;
 }
 
-nav {
-  display: flex;
-  align-items: center;
-  gap: 2rem
+span {
+    display: flex;
+    align-items: center;
+  justify-content: center;
 }
 
-ul {
-  list-style: none;
-  display: flex;
-  gap: 2rem;
-}
-
-li:hover{
-    text-decoration: underline;
-    cursor: pointer;
+.github-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .github-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  flex-shrink: 0;
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--faded, #697983);
-  border-radius: 1.5rem;
-  background: transparent;
-  color: var(--black, #18181b);
-  font-size: 14px;
-  font-weight: 600;
+  gap: 10px;
+  padding-left: 5px;
+  text-decoration: underline;
+  font-size: 1rem;
 }
 
-  .github-link i {
-    font-size: 18px;
-  }
-
-  .github-link:hover {
-    background: var(--black, #18181b);
-    border-color: var(--black, #18181b);
-    color: var(--white, #f7f7f6);
-  }
-
-  .brand:focus-visible,
-  .github-link:focus-visible {
-    outline: 2px solid var(--faded, #697983);
-    outline-offset: 3px;
+  i {
+    font-size: 1.5rem;
   }

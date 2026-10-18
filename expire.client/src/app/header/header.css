@@ -9,13 +9,13 @@ header {
   justify-content: space-between;
   gap: 1rem;
   width: calc(100vw - 2rem);
-  height: 3rem;
+  height: 4rem;
   margin: 0 1rem;
   padding: 0 clamp(1.25rem, calc((100vw - 80rem) / 2), 20rem);
   background: white;
-  border: 1px solid #e4e4e7;
+  border: 1px solid var(--grey);
   border-radius: 1.5rem;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+  box-shadow: var(--shadow);
   color: white;
   font-weight: bold;
 }
@@ -35,7 +35,7 @@ header {
 }
 
   .btns a {
-    padding: 0.5rem 1.5rem;
+    padding: 0.6rem 2rem;
     width: 4rem;
     text-align: center;
     border-radius: 999px;

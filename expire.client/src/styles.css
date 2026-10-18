@@ -13,6 +13,8 @@ button, input, a {
   --white: #f7f7f6;
   --black: #18181b;
   --faded: #697983;
+  --grey: #e4e4e7;
+  --shadow: 0 6px 18px rgb(25 35 30 / 8%);
 }
 
 body {

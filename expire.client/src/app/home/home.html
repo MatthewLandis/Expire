@@ -1,8 +1,58 @@
 <section>
   <h1>Welcome to Expire</h1>
   <p>Track your fridge. Use food in time. Waste less.</p>
-  <img src="/imgs/fridge.png" />
-  <button class="open-fridge-button" type="button">
-    Open my fridge →
-  </button>
+  <div class="fridge-scene">
+    <article class="spinach">
+      <span class="food-icon">🥬</span>
+      <div>
+        <h2>Spinach</h2>
+        <span class="expiry use-today">
+        <i class='bx bx-time-five'></i> Use today</span>
+      </div>
+    </article>
+    <article class="carrots">
+      <span class="food-icon">🥕</span>
+      <div>
+        <h2>Carrots</h2>
+        <span class="expiry fresh">
+        <i class='bx bx-check'></i> 5 days left</span>
+      </div>
+    </article>
+    <article class="milk">
+      <span class="food-icon">🥛</span>
+      <div>
+        <h2>Milk</h2>
+        <span class="expiry use-soon">
+        <i class='bx bx-time-five'></i> 2 days left</span>
+      </div>
+    </article>
+    <img class="fridge-image" src="/imgs/fridge.png" alt="fridge logo"/>
+  </div>
+  <div class="fridge-caption">*Example fridge</div>
+  <button class="open-fridge-button" type="button">Open my fridge →</button>
+  <aside class="features">
+    <div class="feature">
+      <div class="logo"><i class='bx bx-plus'></i></div>
+      <div class="text">
+        <strong>Add your food</strong>
+        <small>Keep track of what's in your fridge with a few taps.</small>
+      </div>
+    </div>
+    <span></span>
+    <div class="feature">
+      <div class="logo"><i class='bx bx-time-five'></i></div>
+      <div class="text">
+        <strong>See what expires soon</strong>
+        <small>Get a clear view of what to use next.</small>
+      </div>
+    </div>
+    <span></span>
+    <div class="feature">
+      <div class="logo"><i class='bx bx-leaf'></i></div>
+      <div class="text">
+        <strong>Waste less</strong>
+        <small>Make the most of your food and reduce waste.</small>
+      </div>
+    </div>
+  </aside>
 </section>

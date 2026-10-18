@@ -1,53 +1,352 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 section {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  flex: 1;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1120px;
+  height: auto;
+  margin: 0 auto;
+  padding: 40px 24px;
 }
 
 h1 {
-  font-size: 40pt;
+  font-size: clamp(3rem, 6vw, 7rem);
+  font-weight: bold;
+  letter-spacing: 5px;
+  margin: 1rem;
+  text-align: center;
   font-family: HelveticaNeue, Arial, sans-serif;
-  letter-spacing: 4px;
-  margin-bottom: 1rem;
 }
 
 p {
-  font-size: 18pt;
-  width: 37rem;
+  font-size: clamp(17px, 2.2vw, 24px);
+  max-width: 640px;
   text-align: center;
   color: var(--faded);
-  letter-spacing: 1px;
-  line-height: 1.3;
 }
 
-img {
-  width: 20rem;
+.fridge-scene {
+  display: grid;
+  width: 100%;
+  max-width: 800px;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 300px)
+    minmax(0, 1fr);
+  grid-template-rows: repeat(2, 190px);
+  column-gap: 24px;
+  align-items: center;
+  margin: 32px auto 24px;
+  margin-bottom: 0;
 }
 
-.github-link {
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  color: var(--faded);
+.fridge-image {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  width: 100%;
+  height: 380px;
+  object-fit: contain;
+  display: block;
+}
+
+.fridge-scene article {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border: 1px solid var(--grey);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.spinach {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.carrots {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.milk {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+.food-icon {
+  font-size: 44px;
+  flex-shrink: 0;
+}
+
+.fridge-scene h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.expiry {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 10px;
+  border-radius: 999px;
   font-size: 12px;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
-  .github-link:hover {
-    color: var(--black);
-    text-decoration: underline;
-  }
+.expiry i {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.use-today {
+  background-color: #fce8e6;
+  color: #a8443c;
+}
+
+.use-soon {
+  background: #fff6df;
+  color: #795a19;
+}
+
+.fresh {
+  background: #e9f2e3;
+  color: #3e602b;
+}
 
 .open-fridge-button {
-  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 3rem;
+  border: 0;
   border-radius: 999px;
   background-color: var(--black);
   color: white;
   font-size: 18px;
-  padding: 1rem 3rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 180ms ease;
 }
 
-  .open-fridge-button:hover {
-    opacity: 0.7;
+.open-fridge-button:hover {
+  background-color: #354b3c;
+}
+
+.open-fridge-button:focus-visible {
+  outline: 3px solid #477852;
+  outline-offset: 4px;
+}
+
+aside.features {
+  width: 100%;
+  max-width: 960px;
+  height: auto;
+  margin: 40px auto 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 24px;
+  border-top: 1px solid var(--grey);
+  border-bottom: 1px solid var(--grey);
+  padding: 32px 16px;
+}
+
+.feature {
+  display: flex;
+  flex: 1;
+  gap: 16px;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.feature .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: #e8eeeb;
+}
+
+.feature .logo i {
+  font-size: 2rem;
+}
+
+.feature .text {
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+  text-align: center;
+}
+
+.feature small {
+  font-size: 18px;
+  color: var(--faded);
+  line-height: 1.6;
+}
+
+.feature strong {
+  font-size: 25px;
+  font-weight: normal;
+  line-height: 1.4;
+}
+
+.features > span {
+  flex: 0 0 1px;
+  width: 1px;
+  height: auto;
+  align-self: stretch;
+  background-color: var(--grey);
+}
+/* ADDED */
+.fridge-caption {
+  margin: 0 0 24px;
+  color: var(--faded, #697983);
+  font-family: Arial, sans-serif;
+  font-size: 17px;
+  font-weight: normal;
+  line-height: 1.5;
+  text-align: center;
+}
+/* ADDED: narrower desktop/tablet layout */
+@media (max-width: 850px) {
+  .fridge-scene {
+    grid-template-columns:
+      minmax(0, 1fr)
+      180px
+      minmax(0, 1fr);
+    column-gap: 16px;
   }
+
+  .fridge-scene article {
+    gap: 8px;
+    padding: 14px 10px;
+  }
+
+  .food-icon {
+    font-size: 34px;
+  }
+
+  aside.features {
+    gap: 16px;
+    padding-inline: 0;
+  }
+}
+
+/* ADDED: mobile layout */
+@media (max-width: 650px) {
+  section {
+    padding: 36px 16px 32px;
+  }
+
+  p {
+    max-width: 340px;
+  }
+
+  .fridge-scene {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto auto;
+    gap: 20px 8px;
+    margin-top: 24px;
+  }
+
+  .fridge-image {
+    grid-column: 1 / 4;
+    grid-row: 1;
+    justify-self: center;
+    width: 190px;
+    height: 280px;
+  }
+
+  .spinach {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .milk {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .carrots {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .fridge-scene article {
+    flex-direction: column;
+    height: 100%;
+    padding: 12px 4px;
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .food-icon {
+    font-size: 32px;
+  }
+
+  .fridge-scene h2 {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .expiry {
+    gap: 3px;
+    padding: 6px;
+    font-size: 10px;
+  }
+
+  .expiry i {
+    font-size: 12px;
+  }
+
+  .open-fridge-button {
+    min-height: 52px;
+    font-size: 16px;
+  }
+
+  aside.features {
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 32px;
+    padding: 24px 0;
+  }
+
+  .feature {
+    flex: auto;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .feature .logo {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .feature .text {
+    text-align: left;
+  }
+
+  .features > span {
+    flex: none;
+    width: 100%;
+    height: 1px;
+  }
+}
