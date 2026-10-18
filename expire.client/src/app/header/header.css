@@ -7,17 +7,17 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  width: calc(100vw - 2rem);
   height: 4rem;
-  margin: 0 1rem;
-  padding: 0 clamp(1.25rem, calc((100vw - 80rem) / 2), 20rem);
+  padding: 0 1rem;
   background: white;
-  border: 1px solid var(--grey);
+  border: 2px solid var(--grey);
   border-radius: 1.5rem;
   box-shadow: var(--shadow);
   color: white;
   font-weight: bold;
+  width: calc(100% - 32px);
+  max-width: 60rem;
+  margin: 0 auto;
 }
 
 .brand {
@@ -31,41 +31,38 @@ header {
 
 .btns {
   display: flex;
-  gap: 0.5rem;
+  gap: 2px;
 }
 
   .btns a {
-    padding: 0.6rem 2rem;
+    padding: 0.5rem 2rem;
     width: 4rem;
     text-align: center;
-    border-radius: 999px;
   }
 
     .btns a:first-child {
-      background: grey;
+      background: var(--faded);
+      border-radius: 20px 5px 5px 20px;
     }
 
     .btns a:last-child {
       background: var(--black);
+      border-radius: 5px 20px 20px 5px;
     }
 
-    .btns a:hover {
+    .btns a:hover,
+    .account-button:hover {
       opacity: 0.7;
     }
-
 
 .account-button {
   padding: 0.5rem 1rem;
   display: flex;
   gap: 5px;
   align-items: center;
-  background: grey;
-  border-radius: 1.5rem;
+  background: var(--faded);
+  border-radius: 5px 20px 20px 5px;
 }
-
-  .account-button:hover {
-    background: #0c293b;
-  }
 
 
 .account[open] i:last-child {
@@ -76,8 +73,8 @@ header {
 
 .account-dropdown {
   position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
+  top: 8px;
+  right: 8px;
   z-index: 100;
   box-sizing: border-box;
   width: 210px;
@@ -122,88 +119,18 @@ header {
       cursor: wait;
     }
 
-/* Keyboard focus */
-
-.brand:focus-visible,
-.btns > a:focus-visible,
-.account-button:focus-visible {
-  outline: 2px solid #ff9500;
-  outline-offset: 3px;
-}
-
-.account-dropdown a:focus-visible,
-.account-dropdown button:focus-visible {
-  outline: 2px solid #ff9500;
-  outline-offset: -3px;
-}
-
 .fridge-nav {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--faded);
-  border-radius: 1.5rem;
-  background: transparent;
+  padding: 0.5rem 2rem;
+  border-radius: 20px 5px 5px 20px;
+  background: var(--grey);
   color: var(--black);
-
 }
 
   .fridge-nav:hover {
     background: var(--black);
     border-color: var(--black);
     color: var(--white);
-  }
-
-  .fridge-nav:focus-visible {
-    outline: 2px solid var(--faded);
-    outline-offset: 3px;
-  }
-
-
-.header-search {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 30%;
-  max-width: 360px;
-  border-radius: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  min-width: 0;
-  max-width: 360px;
-  height: 34px;
-  padding: 0 12px;
-  background: var(--white, #f7f7f6);
-  border: 1px solid #e4e4e7;
-  color: var(--faded, #697983);
-}
-
-  .header-search i {
-    flex-shrink: 0;
-    font-size: 18px;
-  }
-
-  .header-search input {
-    width: 100%;
-    min-width: 0;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: var(--black, #18181b);
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-  }
-
-    .header-search input::placeholder {
-      color: var(--faded, #697983);
-    }
-
-  .header-search:focus-within {
-    border-color: var(--faded, #697983);
-    outline: 2px solid rgb(105 121 131 / 20%);
-    outline-offset: 2px;
   }
