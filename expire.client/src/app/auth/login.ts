@@ -32,7 +32,7 @@ export class Login {
     ).subscribe({
       next: () => {
         this.password = '';
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/fridge');
       },
       error: () => {
         this.message.set('Unable to sign in. Check your details and try again.');

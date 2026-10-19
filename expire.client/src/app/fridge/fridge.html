@@ -1,0 +1,89 @@
+<section class="fridge">
+  <header class="fridge__header">
+    <div>
+      <p class="eyebrow">YOUR KITCHEN</p>
+      <h1 id="fridge-title">Your fridge</h1>
+      <p class="muted">Welcome back! Let’s keep your food fresh.</p>
+    </div>
+
+    <button type="button" class="button button--primary">
+      + Add food
+    </button>
+  </header>
+
+  <aside class="expiry-alert">
+    <span class="expiry-alert__icon">⏰</span>
+    <div>
+      <h2 id="expiry-title">A little reminder</h2>
+      <p>2 items expire soon. Use them first to reduce food waste.</p>
+    </div>
+  </aside>
+
+  <div class="summary">
+    <div class="summary__card">
+      <span class="muted">Total items</span>
+      <strong>12</strong>
+    </div>
+    <div class="summary__card">
+      <span class="muted">Expiring soon</span>
+      <strong>2</strong>
+    </div>
+    <div class="summary__card">
+      <span class="muted">Expired</span>
+      <strong>1</strong>
+    </div>
+  </div>
+
+  <section>
+    <div class="inventory__header">
+      <h2 id="inventory-title">What’s inside</h2>
+
+      <label class="filter">
+        <span>Show</span>
+        <select>
+          <option>All items</option>
+          <option>Expiring soon</option>
+          <option>Expired</option>
+        </select>
+      </label>
+    </div>
+
+    <ul class="food-grid">
+      <li class="food-card">
+        <div class="food-card__top">
+          <span class="food-icon">🥛</span>
+          <span class="badge badge--soon">Expires tomorrow</span>
+        </div>
+        <h3>Milk</h3>
+        <p class="muted">Dairy · 1 litre</p>
+        <button type="button" class="button button--secondary">
+          View milk
+        </button>
+      </li>
+
+      <li class="food-card">
+        <div class="food-card__top">
+          <span class="food-icon">🥬</span>
+          <span class="badge badge--soon">Expires in 2 days</span>
+        </div>
+        <h3>Spinach</h3>
+        <p class="muted">Vegetables · 1 bag</p>
+        <button type="button" class="button button--secondary">
+          View spinach
+        </button>
+      </li>
+
+      <li class="food-card">
+        <div class="food-card__top">
+          <span class="food-icon">🥚</span>
+          <span class="badge badge--fresh">Expires in 8 days</span>
+        </div>
+        <h3>Eggs</h3>
+        <p class="muted">Dairy & eggs · 6 eggs</p>
+        <button type="button" class="button button--secondary">
+          View eggs
+        </button>
+      </li>
+    </ul>
+  </section>
+</section>

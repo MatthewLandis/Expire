@@ -4,12 +4,15 @@ import { Home } from './home/home';
 import { Login } from './auth/login';
 import { Signup } from './auth/signup';
 import { Profile } from './profile/profile';;
+import { Fridge } from './fridge/fridge';;
 
 const routes: Routes = [
   { path: '', component: Home, pathMatch: 'full', title: 'Expire' },
   { path: 'login', component: Login, title: 'Login | Expire' },
   { path: 'signup', component: Signup, title: 'Sign up | Expire' },
-  { path: 'profile', component: Profile, title: 'Profile' }
+  { path: 'profile', component: Profile, title: 'Profile' },
+  { path: 'fridge', component: Fridge, title: 'Fridge' }
+
 
 ];
 
