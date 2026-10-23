@@ -34,26 +34,28 @@ header {
   gap: 2px;
 }
 
-  .btns a {
+  .btns > .login-btn,
+  .btns > .signup-btn {
     padding: 0.5rem 2rem;
     width: 4rem;
     text-align: center;
   }
 
-    .btns a:first-child {
-      background: var(--faded);
-      border-radius: 20px 5px 5px 20px;
-    }
+.login-btn {
+  background: var(--faded);
+  border-radius: 20px 5px 5px 20px;
+}
 
-    .btns a:last-child {
-      background: var(--black);
-      border-radius: 5px 20px 20px 5px;
-    }
+.signup-btn {
+  background: var(--black);
+  border-radius: 5px 20px 20px 5px;
+}
 
-    .btns a:hover,
-    .account-button:hover {
-      opacity: 0.7;
-    }
+  .login-btn:hover,
+  .signup-btn:hover,
+  .account-button:hover {
+    opacity: 0.7;
+  }
 
 .account-button {
   padding: 0.5rem 1rem;
@@ -64,59 +66,60 @@ header {
   border-radius: 5px 20px 20px 5px;
 }
 
-
-.account[open] i:last-child {
+.account[open] .arrow {
   transform: rotate(180deg);
 }
 
 /* Dropdown menu */
+details.account {
+  position: relative;
+  cursor: pointer;
+}
+
+.display-name {
+  padding: 10px 0;
+  font-size: 15pt;
+  color: black;
+}
 
 .account-dropdown {
+    text-align: center;
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 40px;
+  right: 0;
   z-index: 100;
-  box-sizing: border-box;
   width: 210px;
-  max-width: calc(100vw - 3rem);
-  padding: 6px 0;
-  background: #262626;
-  color: #eee;
+  background: white;
+  color: var(--faded);
   border-radius: 6px;
   box-shadow: 0 6px 16px rgb(0 0 0 / 25%);
   overflow: hidden;
   font-family: Arial, sans-serif;
   font-size: 14px;
+  cursor: auto;
+  padding-top: 10px;
 }
 
   .account-dropdown a,
   .account-dropdown button {
-    display: block;
-    box-sizing: border-box;
+    display: flex;
+    align-items: center;
     width: 100%;
-    padding: 14px 16px;
-    border: none;
-    background: transparent;
-    color: inherit;
-    font: inherit;
+    padding: 16px;
     text-align: left;
-    text-decoration: none;
     cursor: pointer;
+    gap: 5px;
+    border-top: 1px solid var(--faded);
   }
+
+    .account-dropdown a i,
+    .account-dropdown button i {
+      font-size: 15pt;
+    }
 
     .account-dropdown a:hover,
     .account-dropdown button:hover {
-      background: #373737;
-      color: #ff9500;
-    }
-
-  .account-dropdown button {
-    border-top: 1px solid #494949;
-  }
-
-    .account-dropdown button:disabled {
-      opacity: 0.5;
-      cursor: wait;
+      background: var(--grey);
     }
 
 .fridge-nav {

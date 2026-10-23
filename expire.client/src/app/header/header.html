@@ -2,22 +2,25 @@
   <a class="brand" routerLink="/">Expire</a>
   <nav class="btns">
     @if (auth.user().authenticated) {
-    <button class="fridge-nav" type="button">My Fridge</button>
+    <button class="fridge-nav" type="button" routerLink="/fridge">My Fridge</button>
     <details class="account">
       <summary class="account-button">
         <i class="bx bx-user-circle"></i>
         <span>My Account</span>
-        <i class='bx bx-chevron-up'></i>
+        <i class='bx bx-chevron-up arrow'></i>
       </summary>
       <div class="account-dropdown">
-        <span class="displayName">{{ auth.user().username }}</span>
-        <a routerLink="/profile">My Profile</a>
-        <button type="button" (click)="onLogout()">Log out</button>
+        <small>Logged in as:</small>
+        <p class="display-name">{{ auth.user().username }}</p>
+        <a routerLink="/profile"><i class="bx bx-user-circle"></i>My Profile</a>
+        <a routerLink="/themes"><i class='bx bx-palette'></i>Themes</a>
+        <a routerLink="/settings"><i class='bx bx-cog'></i>Settings</a>
+        <button type="button" (click)="onLogout()"><i class='bx bx-log-out'></i>Log out</button>
       </div>
     </details>
     } @else {
-    <a routerLink="/login">Log In</a>
-    <a routerLink="/signup">Sign Up</a>
+    <a class="login-btn" routerLink="/login">Log In</a>
+    <a class="signup-btn" routerLink="/signup">Sign Up</a>
     }
   </nav>
 </header>

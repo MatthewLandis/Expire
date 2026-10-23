@@ -19,17 +19,12 @@ export class Login {
   password = '';
 
   readonly message = signal('');
-  readonly isSubmitting = signal(false);
 
   onLogin() {
-    if (this.isSubmitting()) return;
-
     this.message.set('');
-    this.isSubmitting.set(true);
 
-    this.auth.login(this.username, this.password).pipe(
-      finalize(() => this.isSubmitting.set(false))
-    ).subscribe({
+    this.auth.login(this.username, this.password)
+    .subscribe({
       next: () => {
         this.password = '';
         this.router.navigateByUrl('/fridge');

@@ -51,8 +51,8 @@ public class AuthController : ControllerBase
         var result = await _users.CreateAsync(user, request.Password);
 
         return result.Succeeded
-            ? BadRequest(new { message = "Unable to create account." })
-            : Ok(new { message = "Account created. Please sign in." });
+            ? Ok(new { message = "Account created. Please sign in." })
+            : BadRequest(new { message = "Unable to create account." });
     }
 
     [HttpPost("login")]
