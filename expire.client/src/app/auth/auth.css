@@ -129,3 +129,11 @@ section p a {
 ul {
   margin-left: 20px;
 }
+
+img {
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+  height: 40rem;
+}

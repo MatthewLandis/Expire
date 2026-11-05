@@ -1,13 +1,3 @@
-:host {
-  display: block;
-  color: var(--black);
-  font-family: Arial, sans-serif;
-}
-
-.profile-page,
-.profile-page * {
-  box-sizing: border-box;
-}
 
 /* Center the card beneath the header */
 

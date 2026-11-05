@@ -3,7 +3,7 @@
   <nav class="btns">
     @if (auth.user().authenticated) {
     <button class="fridge-nav" type="button" routerLink="/fridge">My Fridge</button>
-    <details class="account">
+    <details class="account" #accountMenu>
       <summary class="account-button">
         <i class="bx bx-user-circle"></i>
         <span>My Account</span>
@@ -12,9 +12,9 @@
       <div class="account-dropdown">
         <small>Logged in as:</small>
         <p class="display-name">{{ auth.user().username }}</p>
-        <a routerLink="/profile"><i class="bx bx-user-circle"></i>My Profile</a>
-        <a routerLink="/themes"><i class='bx bx-palette'></i>Themes</a>
-        <a routerLink="/settings"><i class='bx bx-cog'></i>Settings</a>
+        <a routerLink="/profile" (click)="accountMenu.open = false"><i class="bx bx-user-circle"></i>My Profile</a>
+        <a routerLink="/themes" (click)="accountMenu.open = false"><i class='bx bx-palette'></i>Themes</a>
+        <a routerLink="/settings" (click)="accountMenu.open = false"><i class='bx bx-cog'></i>Settings</a>
         <button type="button" (click)="onLogout()"><i class='bx bx-log-out'></i>Log out</button>
       </div>
     </details>

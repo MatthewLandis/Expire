@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 
 interface AuthUser {
   authenticated: boolean;
@@ -20,7 +20,13 @@ export class AuthService {
 
   loadUser() {
     return this.http.get<AuthUser>('/api/auth/me').pipe(
-      tap(user => this.currentUser.set(user))
+      tap(user => this.currentUser.set(user)),
+      // If the API is unreachable or rejects the request, treat the user as logged out
+      // instead of letting the error go unhandled.
+      catchError(() => {
+        this.currentUser.set({ authenticated: false, username: null });
+        return of(null);
+      })
     );
   }
 
