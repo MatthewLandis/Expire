@@ -1,3 +1,9 @@
+/* Fonts - defined here so any page can use them */
+@font-face {
+  font-family: HelveticaNeue;
+  src: url('/fonts/HelveticaNeue-Light.ttf') format('truetype');
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -7,6 +13,12 @@
 button, input, a {
   all: unset;
   cursor: pointer;
+}
+
+/* Show a ring around whatever the keyboard is on */
+:focus-visible {
+  outline: 2px solid var(--faded);
+  outline-offset: 2px;
 }
 
 :root {
