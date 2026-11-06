@@ -2,6 +2,7 @@
 @font-face {
   font-family: HelveticaNeue;
   src: url('/fonts/HelveticaNeue-Light.ttf') format('truetype');
+  font-weight: 300; /* this file is the Light weight */
 }
 
 * {
@@ -12,6 +13,7 @@
 
 button, input, a {
   all: unset;
+  box-sizing: border-box; /*needs it again here becuase itll default back to content-box*/
   cursor: pointer;
 }
 
@@ -22,11 +24,20 @@ button, input, a {
 }
 
 :root {
+  /* Colors */
   --white: #f7f7f6;
   --black: #18181b;
+  --black-hover: #3f3f46;
   --faded: #697983;
   --grey: #e4e4e7;
-  --shadow: 0 6px 18px rgb(25 35 30 / 8%);
+  --grey-hover: #d4d4d8;
+
+  /* Shadows */
+  --shadow: 0 8px 24px rgb(25 35 30 / 16%);
+
+  /* Corners */
+  --radius-sm: 0.375rem;
+  --radius-lg: 1.25rem;
 }
 
 body {

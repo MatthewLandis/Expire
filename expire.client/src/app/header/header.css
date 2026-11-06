@@ -1,18 +1,17 @@
 header {
+  position: relative;
+  z-index: 1; /* draw above the page so the shadow isn't covered */
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 4rem;
+  width: min(60rem, 100% - 2rem); /* 60rem wide, or full width minus 1rem each side */
+  margin: 0 auto;
   padding: 0 1rem;
   background: white;
-  border: 2px solid var(--grey);
-  border-radius: 1.5rem;
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
-  color: var(--black);
   font-weight: bold;
-  width: calc(100% - 32px);
-  max-width: 60rem;
-  margin: 0 auto;
 }
 
 .brand {
@@ -20,123 +19,129 @@ header {
   top: -1px;
   font-family: HelveticaNeue, Arial, sans-serif;
   font-size: 2rem;
-  letter-spacing: 4px;
+  letter-spacing: 0.25rem;
 }
 
-.btns {
+nav {
   display: flex;
-  gap: 2px;
+  gap: 0.25rem;
 }
 
-.btns > .login-btn,
-.btns > .signup-btn {
-  padding: 0.5rem 1.5rem;
-  min-width: 7rem;
-  text-align: center;
-}
+/* ---------- Buttons ----------
+   Secondary (most buttons): grey background, dark text
+   Primary (Sign Up):        black background, light text
+   Pairs share one look: round outside corners, small inside corners */
 
-/* Buttons on dark backgrounds need light text */
+.fridge-nav,
+.account-button,
 .login-btn,
-.signup-btn,
-.account-button {
-  color: var(--white);
-}
-
-.login-btn {
-  background: var(--faded);
-  border-radius: 20px 5px 5px 20px;
-}
-
 .signup-btn {
-  background: var(--black);
-  border-radius: 5px 20px 20px 5px;
+  padding: 0.5rem 1.5rem;
+  background: var(--grey);
+  transition: background 0.2s;
 }
 
-.login-btn:hover,
-.signup-btn:hover,
-.account-button:hover {
-  opacity: 0.7;
+.fridge-nav:hover,
+.account-button:hover,
+.login-btn:hover {
+  background: var(--grey-hover);
+}
+
+/* Left button of a pair */
+.fridge-nav,
+.login-btn {
+  border-radius: var(--radius-lg) var(--radius-sm) var(--radius-sm) var(--radius-lg);
+}
+
+/* Right button of a pair */
+.account-button,
+.signup-btn {
+  border-radius: var(--radius-sm) var(--radius-lg) var(--radius-lg) var(--radius-sm);
 }
 
 .account-button {
-  padding: 0.5rem 1rem;
+  anchor-name: --account-button; /* lets the dropdown find this button */
   display: flex;
-  gap: 5px;
   align-items: center;
-  background: var(--faded);
-  border-radius: 5px 20px 20px 5px;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
 }
 
 .arrow {
   transition: transform 0.2s;
 }
 
-.account[open] .arrow {
+/* Flip the arrow while the menu is open */
+nav:has(:popover-open) .arrow {
   transform: rotate(180deg);
 }
 
-/* Dropdown menu */
-details.account {
-  position: relative;
-  cursor: pointer;
-}
-
-.display-name {
-  padding: 10px 0;
-  font-size: 15pt;
-  color: var(--black);
-}
-
-.account-dropdown {
+.login-btn,
+.signup-btn {
+  min-width: 6rem;
   text-align: center;
-  position: absolute;
-  top: calc(100% + 4px);
-  right: 0;
-  z-index: 100;
-  width: 210px;
-  background: white;
-  color: var(--faded);
-  border-radius: 6px;
-  box-shadow: 0 6px 16px rgb(0 0 0 / 25%);
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  cursor: auto;
-  padding-top: 10px;
 }
 
-.account-dropdown a,
-.account-dropdown button {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 16px;
-  text-align: left;
-  cursor: pointer;
-  gap: 5px;
-  border-top: 1px solid var(--faded);
-}
-
-.account-dropdown a i,
-.account-dropdown button i {
-  font-size: 15pt;
-}
-
-.account-dropdown a:hover,
-.account-dropdown button:hover {
-  background: var(--grey);
-}
-
-.fridge-nav {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 2rem;
-  border-radius: 20px 5px 5px 20px;
-  background: var(--grey);
-}
-
-.fridge-nav:hover {
+.signup-btn {
   background: var(--black);
   color: var(--white);
+}
+
+.signup-btn:hover {
+  background: var(--black-hover);
+}
+
+/* ---------- Dropdown menu ---------- */
+
+#account-menu {
+  /* Sit below the button, lined up with its right edge */
+  position-anchor: --account-button;
+  position-area: bottom span-left;
+  inset: auto;
+  margin-top: 0.25rem;
+  width: 13rem;
+  padding-top: 0.75rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: white;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  text-align: center;
+  color: var(--faded);
+  font-size: 0.875rem;
+  font-weight: normal; /* only the username is bold */
+}
+
+p {
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--black);
+  overflow-wrap: anywhere; /* allow long names to wrap onto a new line */
+}
+
+/* Remove the bullet points from the menu list */
+#account-menu ul {
+  list-style: none;
+}
+
+#account-menu a,
+#account-menu button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--grey);
+  transition: background 0.2s;
+}
+
+/* Lighter than the divider lines, so they stay visible */
+#account-menu a:hover,
+#account-menu button:hover {
+  background: var(--white);
+}
+
+#account-menu i {
+  font-size: 1.125rem;
 }

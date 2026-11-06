@@ -1,26 +1,24 @@
 <header>
   <a class="brand" routerLink="/">Expire</a>
-  <nav class="btns">
+  <nav>
     @if (auth.user().authenticated) {
-    <a class="fridge-nav" routerLink="/fridge">My Fridge</a>
-    <details class="account" #accountMenu>
-      <summary class="account-button">
-        <i class="bx bx-user-circle"></i>
-        <span>My Account</span>
-        <i class='bx bx-chevron-down arrow'></i>
-      </summary>
-      <div class="account-dropdown">
+      <a class="fridge-nav" routerLink="/fridge">My Fridge</a>
+      <button class="account-button" popovertarget="account-menu">
+        <i class="bx bx-user-circle"></i>My Account<i class="bx bx-chevron-down arrow"></i>
+      </button>
+      <div id="account-menu" popover #accountMenu (click)="accountMenu.hidePopover()">
         <small>Logged in as:</small>
-        <p class="display-name">{{ auth.user().username }}</p>
-        <a routerLink="/profile" (click)="accountMenu.open = false"><i class="bx bx-user-circle"></i>My Profile</a>
-        <a routerLink="/themes" (click)="accountMenu.open = false"><i class='bx bx-palette'></i>Themes</a>
-        <a routerLink="/settings" (click)="accountMenu.open = false"><i class='bx bx-cog'></i>Settings</a>
-        <button type="button" (click)="onLogout()"><i class='bx bx-log-out'></i>Log out</button>
+        <p>{{ auth.user().username }}</p>
+        <ul>
+          <li><a routerLink="/profile"><i class="bx bx-user-circle"></i>My Profile</a></li>
+          <li><a routerLink="/themes"><i class="bx bx-palette"></i>Themes</a></li>
+          <li><a routerLink="/settings"><i class="bx bx-cog"></i>Settings</a></li>
+          <li><button (click)="onLogout()"><i class="bx bx-log-out"></i>Log out</button></li>
+        </ul>
       </div>
-    </details>
     } @else {
-    <a class="login-btn" routerLink="/login">Log In</a>
-    <a class="signup-btn" routerLink="/signup">Sign Up</a>
+      <a class="login-btn" routerLink="/login">Log In</a>
+      <a class="signup-btn" routerLink="/signup">Sign Up</a>
     }
   </nav>
 </header>
