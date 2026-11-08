@@ -33,6 +33,16 @@ button, input, a {
   --grey-hover: #d4d4d8;
   --red: #dc2626;
 
+  /* Food freshness - text color and its light background */
+  --fresh: #3b6b2c;
+  --fresh-bg: #e7f3e4;
+  --soon: #8a6212;
+  --soon-bg: #fdf3d7;
+  --today: #a4461b;
+  --today-bg: #fde5d4;
+  --expired: #b42323;
+  --expired-bg: #fde2e2;
+
   /* Shadows */
   --shadow: 0 8px 24px rgb(25 35 30 / 16%);
 

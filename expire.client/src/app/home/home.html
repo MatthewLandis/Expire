@@ -1,70 +1,62 @@
-<section>
-  <h1>Welcome to Expire</h1>
-  <p>Track your fridge. Use food in time. Waste less.</p>
-  <div class="fridge-scene">
-    <article class="spinach">
-      <span class="food-icon">🥬</span>
-      <div>
-        <h2>Spinach</h2>
-        <span class="expiry use-today">
-          <i class='bx bx-time-five'></i> Use today
-        </span>
-      </div>
-    </article>
-    <article class="carrots">
-      <span class="food-icon">🥕</span>
-      <div>
-        <h2>Carrots</h2>
-        <span class="expiry fresh">
-          <i class='bx bx-check'></i> 5 days left
-        </span>
-      </div>
-    </article>
-    <article class="milk">
-      <span class="food-icon">🥛</span>
-      <div>
-        <h2>Milk</h2>
-        <span class="expiry use-soon">
-          <i class='bx bx-time-five'></i> 2 days left
-        </span>
-      </div>
-    </article>
-    <article class="apple">
-      <span class="food-icon">🍎</span>
-      <div>
-        <h2>Apple</h2>
-        <span class="expiry expired">
-          <i class='bx bx-trash'></i>Waste
-        </span>
-      </div>
-    </article>
-    <img class="fridge-image" src="/imgs/fridge.png" alt="fridge logo" />
+<h1>Welcome to Expire</h1>
+<p>Track your fridge. Use food in time. Waste less.</p>
+
+<!-- New visitors are sent to sign up, logged-in users straight to their fridge -->
+@if (auth.user().authenticated) {
+  <a routerLink="/fridge">Open my fridge →</a>
+} @else {
+  <a routerLink="/signup">Get started →</a>
+}
+
+<!-- The fridge goes first. The grid then fills the cards into the
+     empty spots in reading order: top-left, top-right, bottom-left, bottom-right -->
+<div class="fridge-scene">
+  <img src="/imgs/fridge.png" alt="fridge logo" />
+  <article>
+    <span class="food-icon">🥬</span>
+    <div>
+      <h2>Spinach</h2>
+      <span class="expiry use-today"><i class='bx bx-time-five'></i> Use today</span>
+    </div>
+  </article>
+  <article>
+    <span class="food-icon">🥛</span>
+    <div>
+      <h2>Milk</h2>
+      <span class="expiry use-soon"><i class='bx bx-time-five'></i> 2 days left</span>
+    </div>
+  </article>
+  <article>
+    <span class="food-icon">🥕</span>
+    <div>
+      <h2>Carrots</h2>
+      <span class="expiry fresh"><i class='bx bx-check'></i> 5 days left</span>
+    </div>
+  </article>
+  <article>
+    <span class="food-icon">🍎</span>
+    <div>
+      <h2>Apple</h2>
+      <span class="expiry expired"><i class='bx bx-trash'></i> Expired</span>
+    </div>
+  </article>
+</div>
+<small>*Example fridge</small>
+
+<div class="features">
+  <div class="feature">
+    <i class='bx bx-plus'></i>
+    <h3>Add your food</h3>
+    <p>Keep track of what's in your fridge with a few taps.</p>
   </div>
-  <div class="fridge-caption">*Example fridge</div>
-  <button class="open-fridge-button" type="button" routerLink="/fridge">Open my fridge →</button>
-  <aside class="features">
-    <div class="feature">
-      <div class="logo"><i class='bx bx-plus'></i></div>
-      <div class="text">
-        <strong>Add your food</strong>
-        <small>Keep track of what's in your fridge with a few taps.</small>
-      </div>
-    </div>
-    <span></span>
-    <div class="feature">
-      <div class="logo"><i class='bx bx-time-five'></i></div>
-      <div class="text">
-        <strong>See what expires soon</strong>
-        <small>Get a clear view of what to use next.</small>
-      </div>
-    </div>
-    <span></span>
-    <div class="feature">
-      <div class="logo"><i class='bx bx-leaf'></i></div>
-      <div class="text">
-        <strong>Waste less</strong>
-        <small>Make the most of your food and reduce waste.</small>
-      </div>
-    </div>
-  </aside>
-</section>
+  <div class="feature">
+    <i class='bx bx-time-five'></i>
+    <h3>See what expires soon</h3>
+    <p>Get a clear view of what to use next.</p>
+  </div>
+  <div class="feature">
+    <i class='bx bx-leaf'></i>
+    <h3>Waste less</h3>
+    <p>Make the most of your food and reduce waste.</p>
+  </div>
+</div>
