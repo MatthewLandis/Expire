@@ -1,139 +1,164 @@
-section {
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  transform: translateY(-50%);
-  width: 450px;
-  overflow: hidden;
-  background: white;
-  border: 2px solid #e4e4e7;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+/* Center the form and the image side by side */
+:host {
+  flex: 1;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+  padding: 2rem 1rem;
 }
 
-/* Navigation */
+/* The card that holds the tabs and the form */
+section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 28rem;
+  overflow: hidden;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+/* Log In / Sign Up tabs */
 nav {
   display: flex;
-  background: #f3f4f5;
+  background: var(--white);
 }
 
   nav a {
     flex: 1;
-    padding: 18px;
-    color: #697983; /*not selected*/
+    padding: 1rem;
+    color: var(--faded);
     text-align: center;
-    font-size: 17px;
     font-weight: bold;
+    transition: color 0.2s;
   }
 
-    nav a:hover {
-      color: black;
+    nav a:hover,
+    nav a.active {
+      color: var(--black);
     }
 
     nav a.active {
       background: white;
-      color: black;
     }
 
-/* Heading and form spacing */
+/* Form layout */
 form {
   display: flex;
   flex-direction: column;
-  padding: 2rem;
   gap: 2rem;
+  padding: 2rem;
 }
 
-  form p {
-    color: var(--faded);
-    font-size: 17px;
-    line-height: 1.5;
+h1 {
+  font-size: 1.5rem;
+}
+
+p {
+  color: var(--faded);
+  line-height: 1.5;
+}
+
+  p a {
+    color: var(--black);
+    text-decoration: underline;
   }
 
-/* Input fields */
+  p.error {
+    color: var(--red);
+  }
+
+/* Input fields: label on top, icon and input side by side */
 .field {
   display: grid;
-  grid-template-columns: 20px minmax(0, 1fr);
+  grid-template-columns: 1.25rem 1fr;
   align-items: center;
-  column-gap: 10px;
-  padding: 0 4px 10px;
-  border-bottom: 1px solid #d4d9dd;
+  column-gap: 0.5rem;
+  padding: 0 0.25rem 0.5rem;
+  border-bottom: 1px solid var(--grey-hover);
 }
 
   .field label {
     grid-column: 1 / -1;
-    margin-bottom: 8px;
-    font-size: 15px;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
     font-weight: bold;
-    color: var(--faded)
+    color: var(--faded);
   }
 
   .field i {
     color: var(--faded);
-    font-size: 17px;
     text-align: center;
   }
 
   .field input {
-    height: 34px;
-    font-size: 17px;
+    height: 2rem;
   }
 
     .field input::placeholder {
       color: var(--faded);
     }
 
+    /* The browser paints autofilled inputs blue and won't let us change
+       that background, so we cover it with a white inner shadow instead.
+       The long transition is a backup: the blue takes hours to fade in. */
+    .field input:-webkit-autofill {
+      box-shadow: 0 0 0 100px white inset;
+      -webkit-text-fill-color: var(--black);
+      transition: background-color 9999s;
+    }
+
   .field:focus-within {
-    border-bottom-color: black;
+    border-bottom-color: var(--black);
   }
 
     .field:focus-within i {
-      color: black;
+      color: var(--black);
     }
 
-/* Submit button */
-.submit-button {
-  padding: 0.5rem;
-  border-radius: 10px;
-  background: black;
-  color: white;
-  font-size: 17px;
-  font-weight: bold;
-  text-align: center;
+/* Password rules box (sign up only) */
+.requirements {
+  padding: 0.5rem 1rem;
+  background: var(--white);
+  border-radius: var(--radius-sm);
 }
 
-  .submit-button:hover {
-    background: var(--faded);
+  .requirements ul {
+    padding-left: 1.25rem;
+    color: var(--faded);
+    font-size: 0.875rem;
   }
 
-  .submit-button:disabled {
-    background: #f3f4f5;
-    color: lightgrey;
+/* Submit button (primary = black) */
+button {
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--black);
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+  button:hover {
+    background: var(--black-hover);
+  }
+
+  button:disabled {
+    background: var(--grey);
+    color: var(--faded);
     cursor: not-allowed;
   }
 
-section p a {
-    color: black;
-    text-decoration: underline;
-}
-
-.requirments {
-  background: #f3f4f5;
-  padding: 0.5rem;
-  border: 1px solid #e4e4e7;
-  border-radius: 10px;
-  color: var(--faded);
-}
-
-ul {
-  margin-left: 20px;
-}
-
 img {
-  position: absolute;
-  top: 50%;
-  right: 10%;
-  transform: translateY(-50%);
   height: 40rem;
+}
+
+/* Hide the fridge picture when there isn't room for both */
+@media (max-width: 64rem) {
+  img {
+    display: none;
+  }
 }

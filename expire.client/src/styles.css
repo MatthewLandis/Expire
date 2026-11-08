@@ -31,6 +31,7 @@ button, input, a {
   --faded: #697983;
   --grey: #e4e4e7;
   --grey-hover: #d4d4d8;
+  --red: #dc2626;
 
   /* Shadows */
   --shadow: 0 8px 24px rgb(25 35 30 / 16%);

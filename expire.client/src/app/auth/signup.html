@@ -13,9 +13,10 @@
       <i class='bx bx-user'></i>
       <input id="user"
              name="username"
-             [(ngModel)]="username"
              type="text"
+             [(ngModel)]="username"
              placeholder="Enter your username"
+             autocomplete="username"
              spellcheck="false"
              required>
     </div>
@@ -24,12 +25,13 @@
       <i class='bx bx-lock'></i>
       <input id="pass"
              name="password"
-             [(ngModel)]="password"
              type="password"
+             [(ngModel)]="password"
              placeholder="Enter your password"
+             autocomplete="new-password"
              required>
     </div>
-    <div class="requirments">
+    <div class="requirements">
       <p>Your password must:</p>
       <ul>
         <li>Be 8+ characters long.</li>
@@ -37,16 +39,13 @@
         <li>Include at least one number or symbol.</li>
       </ul>
     </div>
-    <button class="submit-button"
-            type="submit"
-            [disabled]="signupForm.invalid || isSubmitting">
-      {{ isSubmitting ? 'Creating account...' : 'Sign up' }}
+    <button type="submit" [disabled]="signupForm.invalid || isSubmitting()">
+      {{ isSubmitting() ? 'Creating account...' : 'Sign Up' }}
     </button>
-
-    <p role="alert" [hidden]="!message">
-      {{ message }}
-    </p>
-    <p>Already have an account? <em><a routerLink="/signup">Log In</a></em></p>
+    @if (message()) {
+      <p class="error">{{ message() }}</p>
+    }
+    <p>Already have an account? <a routerLink="/login">Log In</a></p>
   </form>
 </section>
 <img src="/imgs/fridge.png" />

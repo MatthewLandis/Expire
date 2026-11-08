@@ -1,8 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { finalize } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,18 +18,17 @@ export class Login {
   password = '';
 
   readonly message = signal('');
+  readonly isSubmitting = signal(false);
 
   onLogin() {
     this.message.set('');
+    this.isSubmitting.set(true);
 
-    this.auth.login(this.username, this.password)
-    .subscribe({
-      next: () => {
-        this.password = '';
-        this.router.navigateByUrl('/fridge');
-      },
+    this.auth.login(this.username, this.password).subscribe({
+      next: () => this.router.navigateByUrl('/fridge'),
       error: () => {
         this.message.set('Unable to sign in. Check your details and try again.');
+        this.isSubmitting.set(false);
       }
     });
   }

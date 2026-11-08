@@ -1,8 +1,7 @@
-import { Component, ChangeDetectorRef, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { finalize } from 'rxjs';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -12,33 +11,24 @@ import { finalize } from 'rxjs';
   styleUrl: './auth.css'
 })
 export class Signup {
-  private http = inject(HttpClient);
+  private auth = inject(AuthService);
   private router = inject(Router);
-  private changeDetector = inject(ChangeDetectorRef);
 
   username = '';
   password = '';
-  message = '';
-  isSubmitting = false;
+
+  readonly message = signal('');
+  readonly isSubmitting = signal(false);
 
   onSignup() {
-    this.message = '';
-    this.isSubmitting = true;
-    this.http.post('/api/auth/register', {
-      username: this.username,
-      password: this.password
-    }).pipe(
-      finalize(() => {
-        this.isSubmitting = false;
-        this.changeDetector.markForCheck();
-      })
-    ).subscribe({
-      next: () => {
-        this.password = '';
-        this.router.navigateByUrl('/login');
-      },
+    this.message.set('');
+    this.isSubmitting.set(true);
+
+    this.auth.register(this.username, this.password).subscribe({
+      next: () => this.router.navigateByUrl('/login'),
       error: () => {
-        this.message = 'Registration failed. Check your details and try again.';
+        this.message.set('Registration failed. Check your details and try again.');
+        this.isSubmitting.set(false);
       }
     });
   }
