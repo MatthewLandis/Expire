@@ -7,15 +7,18 @@ import { Profile } from './profile/profile';
 import { Fridge } from './fridge/fridge';
 import { Themes } from './themes/themes';
 import { Settings } from './settings/settings';
+import { authGuard, guestGuard } from './auth/auth.guard';
 
+// authGuard  = logged-in users only
+// guestGuard = logged-out users only
 const routes: Routes = [
   { path: '', component: Home, pathMatch: 'full', title: 'Expire' },
-  { path: 'login', component: Login, title: 'Login | Expire' },
-  { path: 'signup', component: Signup, title: 'Sign up | Expire' },
-  { path: 'profile', component: Profile, title: 'Profile' },
-  { path: 'fridge', component: Fridge, title: 'Fridge' },
-  { path: 'themes', component: Themes, title: 'Themes' },
-  { path: 'settings', component: Settings, title: 'Settings' }
+  { path: 'login', component: Login, title: 'Log In | Expire', canActivate: [guestGuard] },
+  { path: 'signup', component: Signup, title: 'Sign Up | Expire', canActivate: [guestGuard] },
+  { path: 'fridge', component: Fridge, title: 'My Fridge | Expire', canActivate: [authGuard] },
+  { path: 'profile', component: Profile, title: 'My Profile | Expire', canActivate: [authGuard] },
+  { path: 'themes', component: Themes, title: 'Themes | Expire', canActivate: [authGuard] },
+  { path: 'settings', component: Settings, title: 'Settings | Expire', canActivate: [authGuard] }
 ];
 
 @NgModule({

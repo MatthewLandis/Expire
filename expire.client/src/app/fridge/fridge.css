@@ -1,241 +1,225 @@
+/* The page: a centered column that fills the space above the footer */
 :host {
-  /* Replace these variables with your app’s theme tokens. */
-  --page: #f6f8f5;
-  --surface: #ffffff;
-  --text: #24372b;
-  --muted: #647067;
-  --primary: #326b47;
-  --primary-hover: #255336;
-  --border: #dde5dc;
-  --warning-bg: #fff4db;
-  --warning-text: #785214;
-  --fresh-bg: #e8f3e9;
-  --radius: 18px;
-  display: block;
-  min-height: 100%;
-  background: var(--page);
-  color: var(--text);
-  font-family: inherit;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: min(60rem, 100% - 2rem); /* same width as the header, so the edges line up */
+  margin: 0 auto;
+  padding: 2.5rem 0;
 }
 
-* {
-  box-sizing: border-box;
+p,
+span {
+  color: var(--faded);
+  line-height: 1.5;
 }
 
-.fridge {
-  max-width: 1100px;
-  margin-inline: auto;
-  padding: clamp(20px, 4vw, 48px);
-}
+/* ---------- Title and Add food button ---------- */
 
-.fridge__header,
-.inventory__header,
-.food-card__top {
+header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-h1,
-h2,
-h3,
-p {
-  margin: 0;
+  gap: 1rem;
 }
 
 h1 {
-  margin-block: 6px 10px;
-  font-size: clamp(28px, 4vw, 40px);
-  letter-spacing: -0.035em;
+  margin-bottom: 0.25rem;
+  font-size: 2.25rem;
+  font-weight: 500;
+  letter-spacing: -0.05rem;
 }
 
-h2 {
-  font-size: 20px;
+/* Add food (primary = black) */
+header button {
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--black);
+  color: var(--white);
+  font-weight: bold;
+  transition: background 0.2s;
 }
 
-h3 {
-  font-size: 18px;
-}
-
-p {
-  line-height: 1.6;
-}
-
-.eyebrow {
-  color: var(--primary);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-}
-
-.muted {
-  color: var(--muted);
-}
-
-.button,
-select {
-  min-height: 44px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 16px;
-  font: inherit;
-}
-
-.button {
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.button--primary {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: white;
-}
-
-  .button--primary:hover {
-    background: var(--primary-hover);
+  header button:hover {
+    background: var(--black-hover);
   }
 
-.button--secondary {
-  background: var(--surface);
-  color: var(--primary);
-}
+/* ---------- Reminder banner ---------- */
 
-  .button--secondary:hover {
-    background: var(--fresh-bg);
-  }
-
-.button:focus-visible,
-select:focus-visible {
-  outline: 3px solid var(--primary);
-  outline-offset: 3px;
-}
-
-.expiry-alert {
+.reminder {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  margin-block: 28px;
-  padding: 20px;
-  border-radius: var(--radius);
-  background: var(--warning-bg);
-  color: var(--warning-text);
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--soon-bg);
 }
 
-.expiry-alert__icon {
-  font-size: 26px;
-}
+  .reminder i {
+    color: var(--soon);
+    font-size: 1.5rem;
+  }
 
-.expiry-alert h2 {
-  margin-bottom: 4px;
-  font-size: 17px;
-}
+  .reminder h2 {
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    color: var(--soon);
+  }
+
+  .reminder p {
+    color: var(--soon);
+  }
+
+/* ---------- Three number cards ---------- */
 
 .summary {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-bottom: 36px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
 }
 
-.summary__card,
-.food-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 22px;
-}
-
-  .summary__card strong {
-    display: block;
-    margin-top: 10px;
-    font-size: 30px;
+  .summary div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
   }
 
-.inventory__header {
-  margin-bottom: 18px;
-}
+  .summary span {
+    font-size: 0.875rem;
+  }
 
-.filter {
+  .summary strong {
+    font-size: 1.5rem;
+  }
+
+/* ---------- "What's inside" title and filter ---------- */
+
+.inventory-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: var(--muted);
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: -1rem; /* sits closer to the food cards it belongs to */
+}
+
+  .inventory-header h2 {
+    font-size: 1.25rem;
+  }
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--faded);
+  font-size: 0.875rem;
 }
 
 select {
-  background: var(--surface);
-  color: var(--text);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--grey);
+  color: var(--black);
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.food-grid {
+  select:hover {
+    background: var(--grey-hover);
+  }
+
+/* ---------- Food cards ---------- */
+
+ul {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
-  margin: 0;
-  padding: 0;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
   list-style: none;
 }
 
-.food-card__top {
-  margin-bottom: 24px;
+li {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.5rem;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
 }
 
 .food-icon {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: var(--page);
-  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  font-size: 1.5rem;
 }
 
-.badge {
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
+li h3 {
+  font-size: 1.125rem;
 }
 
-.badge--soon {
-  background: var(--warning-bg);
-  color: var(--warning-text);
+li p {
+  margin: 0.25rem 0 1.25rem;
+  font-size: 0.875rem;
 }
 
-.badge--fresh {
+/* View button (secondary = grey) */
+li button {
+  margin-top: auto; /* pushes the button to the bottom of the card */
+  padding: 0.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--grey);
+  font-weight: bold;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+  li button:hover {
+    background: var(--grey-hover);
+  }
+
+/* ---------- Expiry badges (same colors as the home page) ---------- */
+
+.expiry {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-lg);
+  font-size: 0.75rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.fresh {
   background: var(--fresh-bg);
-  color: var(--primary);
+  color: var(--fresh);
 }
 
-.food-card p {
-  margin-block: 6px 20px;
+.use-soon {
+  background: var(--soon-bg);
+  color: var(--soon);
 }
 
-.food-card .button {
-  width: 100%;
+.use-today {
+  background: var(--today-bg);
+  color: var(--today);
 }
 
-@media (max-width: 560px) {
-  .fridge__header > .button {
-    width: 100%;
-  }
-
-  .summary {
-    gap: 8px;
-  }
-
-  .summary__card {
-    padding: 14px 10px;
-  }
-
-    .summary__card .muted {
-      font-size: 12px;
-    }
-
-  .food-grid {
-    grid-template-columns: 1fr;
-  }
+.expired {
+  background: var(--expired-bg);
+  color: var(--expired);
 }
