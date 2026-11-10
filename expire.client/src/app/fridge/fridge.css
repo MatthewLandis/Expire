@@ -9,11 +9,49 @@
   padding: 2.5rem 0;
 }
 
-p,
-span {
+p {
   color: var(--faded);
   line-height: 1.5;
 }
+
+/* ---------- Buttons ---------- */
+
+/* Primary = black */
+button {
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--black);
+  color: var(--white);
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+}
+
+  button:hover {
+    background: var(--black-hover);
+  }
+
+  button:disabled {
+    background: var(--grey-hover);
+    cursor: not-allowed;
+  }
+
+/* Secondary = grey */
+.secondary,
+.delete {
+  background: var(--grey);
+  color: var(--black);
+  text-align: center;
+}
+
+  .secondary:hover {
+    background: var(--grey-hover);
+  }
+
+  /* Delete turns red on hover, so it's clear it removes the food */
+  .delete:hover {
+    background: var(--expired-bg);
+    color: var(--red);
+  }
 
 /* ---------- Title and Add food button ---------- */
 
@@ -31,195 +69,331 @@ h1 {
   letter-spacing: -0.05rem;
 }
 
-/* Add food (primary = black) */
-header button {
-  padding: 0.5rem 1.5rem;
-  border-radius: var(--radius-lg);
-  background: var(--black);
-  color: var(--white);
-  font-weight: bold;
-  transition: background 0.2s;
-}
-
-  header button:hover {
-    background: var(--black-hover);
-  }
-
-/* ---------- Reminder banner ---------- */
-
-.reminder {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 1.25rem 1.5rem;
-  border-radius: var(--radius-lg);
-  background: var(--soon-bg);
-}
-
-  .reminder i {
-    color: var(--soon);
-    font-size: 1.5rem;
-  }
-
-  .reminder h2 {
-    margin-bottom: 0.25rem;
-    font-size: 1rem;
-    color: var(--soon);
-  }
-
-  .reminder p {
-    color: var(--soon);
-  }
-
-/* ---------- Three number cards ---------- */
-
-.summary {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
-
-  .summary div {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.25rem 1.5rem;
-    background: white;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
-  }
-
-  .summary span {
-    font-size: 0.875rem;
-  }
-
-  .summary strong {
-    font-size: 1.5rem;
-  }
-
-/* ---------- "What's inside" title and filter ---------- */
-
-.inventory-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: -1rem; /* sits closer to the food cards it belongs to */
-}
-
-  .inventory-header h2 {
-    font-size: 1.25rem;
-  }
-
-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--faded);
+/* "Click a food to see its details..." - centered right above the case */
+.hint {
+  grid-column: 2;
+  grid-row: 1;
+  margin-bottom: -0.75rem; /* sit closer to the case than the normal gap */
   font-size: 0.875rem;
+  font-style: italic;
+  text-align: center;
 }
 
-select {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: var(--radius-lg);
-  background: var(--grey);
-  color: var(--black);
-  font: inherit;
-  cursor: pointer;
-  transition: background 0.2s;
-}
+/* ---------- Add food form ---------- */
 
-  select:hover {
-    background: var(--grey-hover);
-  }
-
-/* ---------- Food cards ---------- */
-
-ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  gap: 1rem;
-  list-style: none;
-}
-
-li {
+form {
+  grid-column: 3; /* right of the case */
+  grid-row: 2; /* under the hint row */
+  min-width: 0; /* lets it stay inside its column */
   display: flex;
   flex-direction: column;
-  padding: 1.25rem 1.5rem;
+  gap: 1rem;
+  padding: 1.5rem;
   background: white;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
 }
 
-.card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
-}
-
-.food-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: var(--radius-sm);
-  background: var(--white);
-  font-size: 1.5rem;
-}
-
-li h3 {
-  font-size: 1.125rem;
-}
-
-li p {
-  margin: 0.25rem 0 1.25rem;
-  font-size: 0.875rem;
-}
-
-/* View button (secondary = grey) */
-li button {
-  margin-top: auto; /* pushes the button to the bottom of the card */
-  padding: 0.5rem;
-  border-radius: var(--radius-lg);
-  background: var(--grey);
-  font-weight: bold;
-  text-align: center;
-  transition: background 0.2s;
-}
-
-  li button:hover {
-    background: var(--grey-hover);
+  form h2 {
+    font-size: 1.25rem;
   }
 
-/* ---------- Expiry badges (same colors as the home page) ---------- */
-
-.expiry {
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-lg);
-  font-size: 0.75rem;
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
   font-weight: bold;
-  white-space: nowrap;
 }
 
+  /* "(optional)" */
+  label em {
+    color: var(--faded);
+    font-style: normal;
+    font-weight: normal;
+  }
+
+input {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--grey);
+  font-weight: normal;
+  cursor: text;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+  .form-buttons button {
+    flex: 1; /* two equal buttons */
+  }
+
+.error {
+  color: var(--red);
+}
+
+/* ---------- Freshness colors ----------
+   Each class just sets two variables. The slot and the badge
+   then use those variables, so the colors live in one place. */
+
 .fresh {
-  background: var(--fresh-bg);
-  color: var(--fresh);
+  --food-color: var(--fresh);
+  --food-bg: var(--fresh-bg);
 }
 
 .use-soon {
-  background: var(--soon-bg);
-  color: var(--soon);
+  --food-color: var(--soon);
+  --food-bg: var(--soon-bg);
 }
 
 .use-today {
-  background: var(--today-bg);
-  color: var(--today);
+  --food-color: var(--today);
+  --food-bg: var(--today-bg);
 }
 
 .expired {
-  background: var(--expired-bg);
-  color: var(--expired);
+  --food-color: var(--expired);
+  --food-bg: var(--expired-bg);
 }
+
+.no-date {
+  --food-color: var(--black);
+  --food-bg: var(--grey);
+}
+
+/* ---------- Details | case | form ---------- */
+
+/* Three columns: the details | the case | the add food form.
+   The two outside columns are always the same width (1fr each),
+   so the case in the middle stays centered and never moves,
+   even when the form opens or closes. */
+.inventory {
+  flex: 1; /* take up all the leftover height of the page */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.5rem;
+  align-content: center; /* center the case up and down in that height */
+  align-items: start; /* the details still line up with the top of the case */
+}
+
+/* ---------- The case ---------- */
+
+.case {
+  grid-column: 2; /* the middle column */
+  grid-row: 2; /* under the hint */
+  display: grid;
+  grid-template-columns: repeat(5, 4.5rem); /* 5 slots across, 10 rows come from the 50 slots */
+  gap: 0.5rem;
+  padding: 1rem;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.slot {
+  position: relative; /* so the count and tooltip can sit on top of it */
+  aspect-ratio: 1; /* always a square */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  background: var(--food-bg);
+  color: var(--food-color);
+  transition: transform 0.2s;
+}
+
+  .slot:hover {
+    transform: scale(1.05);
+  }
+
+  /* The food you clicked */
+  .slot.selected {
+    outline: 2px solid var(--black);
+    outline-offset: 2px;
+  }
+
+/* A free space in the case */
+.slot.empty {
+  border: 1px dashed var(--grey-hover);
+}
+
+/* Food can be picked up and dragged */
+.slot[draggable="true"] {
+  cursor: grab;
+  user-select: none; /* stops the food name getting highlighted instead of dragged */
+}
+
+/* The slot your dragged food will land in */
+.slot.drop-here {
+  outline: 2px dashed var(--black);
+  outline-offset: 2px;
+}
+
+/* ---------- Freezer / Fridge labels ---------- */
+
+.case h3 {
+  grid-column: 1 / -1; /* stretch across all 5 columns */
+  color: var(--faded);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+
+/* The line between the freezer and the fridge */
+.case .divider {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--grey-hover);
+}
+
+.letter {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.slot-name {
+  width: 100%;
+  font-size: 0.75rem;
+  text-align: center;
+  /* cut long names off with "..." */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* "x2" in the top-right corner */
+.count {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* Small label above the slot, only shown on hover */
+.tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--black); /* dark label so it stands out on the white case */
+  color: var(--white);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  box-shadow: var(--shadow);
+}
+
+.slot:hover .tooltip {
+  display: block;
+}
+
+/* ---------- Details window ---------- */
+
+aside {
+  grid-column: 1; /* left of the case */
+  grid-row: 2; /* under the hint row */
+  min-width: 0; /* lets it stay inside its column even with a long food name */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.details-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+  .details-top h2 {
+    font-size: 1.25rem;
+    overflow-wrap: anywhere; /* very long names wrap instead of overflowing */
+  }
+
+/* Round X button */
+.close,
+.close:hover {
+  display: flex;
+  padding: 0.25rem;
+  border-radius: 50%;
+  background: none;
+  color: var(--faded);
+  font-size: 1.5rem;
+}
+
+  .close:hover {
+    color: var(--black);
+  }
+
+/* "Expires in 3 days" */
+.badge {
+  align-self: flex-start;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-lg);
+  background: var(--food-bg);
+  color: var(--food-color);
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+dt {
+  color: var(--faded);
+}
+
+dd {
+  overflow-wrap: anywhere;
+}
+
+.details-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+  .details-buttons button {
+    flex: 1;
+  }
+
+/* ---------- Smaller screens: everything in one column ---------- */
+
+/* 62rem = below this the side columns get too thin */
+@media (max-width: 62rem) {
+  .inventory {
+    grid-template-columns: 1fr;
+  }
+
+  /* Back to normal order: hint, details, case, form - one under the other */
+  .hint,
+  aside,
+  .case,
+  form {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  /* Still 5 across, but the slots shrink to fit the screen */
+  .case {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+

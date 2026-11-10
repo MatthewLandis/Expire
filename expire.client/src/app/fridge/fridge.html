@@ -3,70 +3,135 @@
     <h1>Your Fridge</h1>
     <p>Welcome back! Let's keep your food fresh.</p>
   </div>
-  <button type="button">+ Add food</button>
+  <button type="button" (click)="openForm()">+ Add food</button>
 </header>
 
-<div class="reminder">
-  <i class='bx bx-time-five'></i>
-  <div>
-    <h2>A little reminder</h2>
-    <p>2 items expire soon. Use them first to reduce food waste.</p>
-  </div>
-</div>
+@if (message()) {
+  <p class="error">{{ message() }}</p>
+}
 
-<div class="summary">
-  <div>
-    <span>Total items</span>
-    <strong>3</strong>
-  </div>
-  <div>
-    <span>Expiring soon</span>
-    <strong>2</strong>
-  </div>
-  <div>
-    <span>Expired</span>
-    <strong>0</strong>
-  </div>
-</div>
+<!-- Three columns: details | the case | add food form.
+     Clicking anywhere in here closes the details window. Clicks on a food
+     or on the details window itself are stopped (stopPropagation) so they
+     don't reach this and close it straight away. -->
+<div class="inventory" (click)="closeDetails()">
+  <!-- Above the case, in the middle column -->
+  <p class="hint">
+    @if (foods().length === 0) {
+      Your fridge is empty. Add some food to get started.
+    } @else {
+      Click a food to see its details, or drag it to move it.
+    }
+  </p>
 
-<div class="inventory-header">
-  <h2>What's inside</h2>
-  <label>
-    Show
-    <select>
-      <option>All items</option>
-      <option>Expiring soon</option>
-      <option>Expired</option>
-    </select>
-  </label>
-</div>
+  <!-- Left: the details window, only while a food is clicked -->
+  @if (selected(); as food) {
+    <aside (click)="$event.stopPropagation()">
+      <div class="details-top">
+        <h2>{{ food.name }}</h2>
+        <button type="button" class="close" (click)="closeDetails()" title="Close">
+          <i class='bx bx-x'></i>
+        </button>
+      </div>
 
-<ul>
-  <li>
-    <div class="card-top">
-      <span class="food-icon">🥛</span>
-      <span class="expiry use-soon">Expires tomorrow</span>
-    </div>
-    <h3>Milk</h3>
-    <p>Dairy</p>
-    <button type="button">View milk</button>
-  </li>
-  <li>
-    <div class="card-top">
-      <span class="food-icon">🥬</span>
-      <span class="expiry use-soon">Expires in 2 days</span>
-    </div>
-    <h3>Spinach</h3>
-    <p>Vegetables</p>
-    <button type="button">View spinach</button>
-  </li>
-  <li>
-    <div class="card-top">
-      <span class="food-icon">🥚</span>
-      <span class="expiry fresh">Expires in 8 days</span>
-    </div>
-    <h3>Eggs</h3>
-    <p>Dairy & eggs</p>
-    <button type="button">View eggs</button>
-  </li>
-</ul>
+      <span class="badge {{ freshness(food) }}">{{ expiryText(food) }}</span>
+
+      <dl>
+        <dt>Quantity</dt>
+        <dd>{{ food.quantity }}</dd>
+
+        <dt>Expires</dt>
+        <dd>{{ food.expiryDate ? (food.expiryDate | date: 'MMM d, y') : '-' }}</dd>
+
+        <dt>Added</dt>
+        <dd>{{ food.createdAt | date: 'MMM d, y' }}</dd>
+
+        <dt>Notes</dt>
+        <dd>{{ food.notes || '-' }}</dd>
+      </dl>
+
+      <div class="details-buttons">
+        <button type="button" class="delete" (click)="onDelete(food)">Delete</button>
+      </div>
+    </aside>
+  }
+
+  <!-- Middle: the case, 50 slots, the top 15 are the freezer -->
+  <div class="case">
+    <h3>Freezer</h3>
+
+    @for (slot of slots; track slot) {
+      <!-- A line across the case where the fridge part starts -->
+      @if (slot === freezerSlots) {
+        <h3 class="divider">Fridge</h3>
+      }
+
+      <!-- Every slot accepts drops, whether it has food or not.
+           Food slots are divs, not buttons: browsers won't drag a button
+           (Firefox never does, and our button reset in styles.css stops Chrome too). -->
+      @if (foodInSlot(slot); as food) {
+        <div draggable="true"
+             class="slot {{ freshness(food) }}"
+             [class.selected]="selected()?.id === food.id"
+             [class.drop-here]="dropSlot() === slot"
+             (click)="$event.stopPropagation(); select(food)"
+             (dragstart)="onDragStart($event, food)"
+             (dragover)="onDragOver($event, slot)"
+             (drop)="onDrop(slot)"
+             (dragend)="onDragEnd()">
+          <span class="letter">{{ food.name[0] }}</span>
+          <span class="slot-name">{{ food.name }}</span>
+
+          @if (food.quantity > 1) {
+            <span class="count">x{{ food.quantity }}</span>
+          }
+
+          <!-- Hidden until you hover the slot (see .tooltip in the CSS) -->
+          <span class="tooltip">{{ food.name }} · {{ expiryText(food) }}</span>
+        </div>
+      } @else {
+        <div class="slot empty"
+             [class.drop-here]="dropSlot() === slot"
+             (dragover)="onDragOver($event, slot)"
+             (drop)="onDrop(slot)"></div>
+      }
+    }
+  </div>
+
+  <!-- Right: the add food form, only while it's open -->
+  @if (showForm()) {
+    <form #addForm="ngForm" (ngSubmit)="onAdd()">
+      <h2>Add food</h2>
+
+      <label>
+        Name
+        <input name="name" type="text" [(ngModel)]="name"
+               placeholder="e.g. Milk" maxlength="150" required>
+      </label>
+
+      <label>
+        Quantity
+        <input name="quantity" type="number" [(ngModel)]="quantity"
+               min="1" max="1000" required>
+      </label>
+
+      <label>
+        <span>Expiry date <em>(optional)</em></span>
+        <input name="expiryDate" type="date" [(ngModel)]="expiryDate">
+      </label>
+
+      <label>
+        <span>Notes <em>(optional)</em></span>
+        <input name="notes" type="text" [(ngModel)]="notes"
+               placeholder="e.g. Opened on Monday" maxlength="1000">
+      </label>
+
+      <div class="form-buttons">
+        <button type="button" class="secondary" (click)="closeForm()">Cancel</button>
+        <button type="submit" [disabled]="addForm.invalid || isSaving()">
+          {{ isSaving() ? 'Adding...' : 'Add' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>
