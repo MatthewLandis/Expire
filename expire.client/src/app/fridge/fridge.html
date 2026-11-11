@@ -1,9 +1,18 @@
+<!-- A 2 x 2 grid, so each row lines up across:
+     title       | Add food button
+     welcome     | hint -->
 <header>
-  <div>
-    <h1>Your Fridge</h1>
-    <p>Welcome back! Let's keep your food fresh.</p>
-  </div>
+  <h1>Your Fridge</h1>
   <button type="button" (click)="openForm()">+ Add food</button>
+
+  <p>Welcome back! Let's keep your food fresh.</p>
+  <p class="hint">
+    @if (foods().length === 0) {
+      Your fridge is empty. Add some food to get started.
+    } @else {
+      Click a food to see its details, or drag it to move it.
+    }
+  </p>
 </header>
 
 @if (message()) {
@@ -15,15 +24,6 @@
      or on the details window itself are stopped (stopPropagation) so they
      don't reach this and close it straight away. -->
 <div class="inventory" (click)="closeDetails()">
-  <!-- Above the case, in the middle column -->
-  <p class="hint">
-    @if (foods().length === 0) {
-      Your fridge is empty. Add some food to get started.
-    } @else {
-      Click a food to see its details, or drag it to move it.
-    }
-  </p>
-
   <!-- Left: the details window, only while a food is clicked -->
   @if (selected(); as food) {
     <aside (click)="$event.stopPropagation()">

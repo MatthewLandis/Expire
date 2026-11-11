@@ -5,7 +5,7 @@ import { FoodItem, FoodService } from './food.service';
 
 // The fridge has 50 slots (5 across x 10 down), numbered 0 to 49.
 // The first 15 (top 3 rows) are the freezer. These match FoodController on the server.
-const TOTAL_SLOTS = 50;
+const TOTAL_SLOTS = 45;
 const FREEZER_SLOTS = 15;
 
 @Component({

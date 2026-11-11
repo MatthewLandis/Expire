@@ -1,7 +1,9 @@
 :host {
+  position: relative; /* the footer is placed against this */
   display: flex;
   flex-direction: column;
   min-height: 100svh;
+  padding-bottom: 4.75rem; /* room for the footer, so pages never sit under it */
 }
 
 app-header {
@@ -22,8 +24,11 @@ router-outlet {
   display: none;
 }
 
+/* Pinned to the bottom of the screen (or the bottom of the page, if it's taller) */
 app-footer {
-  position: static;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: block;
-  flex-shrink: 0;
 }
