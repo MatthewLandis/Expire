@@ -1,15 +1,146 @@
 <article>
   <header>
-    <div class="avatar">{{ auth.user().username?.charAt(0)?.toUpperCase() || '?' }}</div>
-    <h1>{{ auth.user().username || 'Your profile' }}</h1>
-    <p>@{{ auth.user().username || 'username' }}</p>
-    <button><i class="bx bx-edit-alt"></i>Edit Profile</button>
+    <div class="avatar">{{ name().charAt(0).toUpperCase() || '?' }}</div>
+    <h1>{{ name() || 'Your profile' }}</h1>
+    <p>@{{ profile()?.username || 'username' }}</p>
+
+    <!-- Only while just looking, so it doesn't sit on top of a form -->
+    @if (mode() === 'view') {
+      <button type="button" class="edit-button" (click)="show('edit')">
+        <i class="bx bx-edit-alt"></i>Edit Profile
+      </button>
+    }
   </header>
 
-  <section>
-    <h2>About</h2>
-    <p>This user has not yet added a bio.</p>
-  </section>
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+  @if (success()) {
+    <p class="success">{{ success() }}</p>
+  }
+
+  <!-- The normal profile -->
+  @if (mode() === 'view') {
+    <section>
+      <h2>About</h2>
+      <p>{{ profile()?.bio || 'This user has not yet added a bio.' }}</p>
+    </section>
+
+    <!-- Counted from the Eaten / Thrown out buttons on the fridge page -->
+    <section>
+      <h2>Your food</h2>
+      <div class="stats">
+        <div class="stat fresh">
+          <strong>{{ profile()?.eatenCount ?? 0 }}</strong>
+          <span>eaten</span>
+        </div>
+        <div class="stat expired">
+          <strong>{{ profile()?.wastedCount ?? 0 }}</strong>
+          <span>thrown out</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Account</h2>
+      <div class="buttons">
+        <button type="button" class="secondary" (click)="show('password')">Change password</button>
+        <button type="button" class="danger" (click)="show('delete')">Delete account</button>
+      </div>
+    </section>
+  }
+
+  <!-- Edit profile -->
+  @if (mode() === 'edit') {
+    <form #editForm="ngForm" (ngSubmit)="onSaveProfile()">
+      <h2>Edit profile</h2>
+
+      <label>
+        <span>Display name <em>(optional)</em></span>
+        <input name="displayName" type="text" [(ngModel)]="displayName"
+               [placeholder]="profile()?.username ?? ''" maxlength="50">
+      </label>
+
+      <label>
+        <span>Bio <em>(optional)</em></span>
+        <textarea name="bio" rows="4" [(ngModel)]="bio"
+                  placeholder="A little about you" maxlength="500"></textarea>
+      </label>
+
+      <div class="buttons">
+        <button type="button" class="secondary" (click)="show('view')">Cancel</button>
+        <button type="submit" [disabled]="editForm.invalid || isSaving()">
+          {{ isSaving() ? 'Saving...' : 'Save' }}
+        </button>
+      </div>
+    </form>
+  }
+
+  <!-- Change password -->
+  @if (mode() === 'password') {
+    <form #passwordForm="ngForm" (ngSubmit)="onChangePassword()">
+      <h2>Change password</h2>
+
+      <label>
+        Current password
+        <input name="currentPassword" type="password" [(ngModel)]="currentPassword"
+               autocomplete="current-password" required>
+      </label>
+
+      <label>
+        New password
+        <input name="newPassword" type="password" [(ngModel)]="newPassword"
+               autocomplete="new-password" minlength="8" maxlength="128" required>
+      </label>
+
+      <label>
+        Confirm new password
+        <input name="confirmPassword" type="password" [(ngModel)]="confirmPassword"
+               autocomplete="new-password" required>
+      </label>
+
+      <!-- Only once they've typed something in the confirm box -->
+      @if (confirmPassword && confirmPassword !== newPassword) {
+        <p class="error">The new passwords don't match.</p>
+      }
+
+      <p class="hint">
+        At least 8 characters, with uppercase and lowercase letters and a number or symbol.
+      </p>
+
+      <div class="buttons">
+        <button type="button" class="secondary" (click)="show('view')">Cancel</button>
+        <button type="submit"
+                [disabled]="passwordForm.invalid || newPassword !== confirmPassword || isSaving()">
+          {{ isSaving() ? 'Saving...' : 'Change password' }}
+        </button>
+      </div>
+    </form>
+  }
+
+  <!-- Delete account -->
+  @if (mode() === 'delete') {
+    <form #deleteForm="ngForm" (ngSubmit)="onDeleteAccount()">
+      <h2>Delete account</h2>
+
+      <p class="warning">
+        This deletes your account and all the food in your fridge. It can't be undone.
+      </p>
+
+      <label>
+        Type your password to confirm
+        <input name="deletePassword" type="password" [(ngModel)]="deletePassword"
+               autocomplete="current-password" required>
+      </label>
+
+      <div class="buttons">
+        <button type="button" class="secondary" (click)="show('view')">Cancel</button>
+        <button type="submit" class="danger" [disabled]="deleteForm.invalid || isSaving()">
+          {{ isSaving() ? 'Deleting...' : 'Delete my account' }}
+        </button>
+      </div>
+    </form>
+  }
 
   <footer>
     <a routerLink="/">← Back to home</a>

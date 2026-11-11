@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FoodItem, FoodService } from './food.service';
 
-// The fridge has 50 slots (5 across x 10 down), numbered 0 to 49.
+// The fridge has 45 slots (5 across x 9 down), numbered 0 to 44.
 // The first 15 (top 3 rows) are the freezer. These match FoodController on the server.
 const TOTAL_SLOTS = 45;
 const FREEZER_SLOTS = 15;
@@ -25,10 +25,16 @@ export class Fridge implements OnInit {
   readonly selected = signal<FoodItem | null>(null);
 
   readonly showForm = signal(false);
+
+  // The food being edited in the form (null = the form is adding a new food).
+  readonly editingFood = signal<FoodItem | null>(null);
+
+  // true = dim every food except the ones that need using up.
+  readonly highlightUrgent = signal(false);
   readonly isSaving = signal(false);
   readonly message = signal('');
 
-  // Every slot number, 0 to 49, so the template can loop over them.
+  // Every slot number, 0 to 44, so the template can loop over them.
   readonly slots = Array.from({ length: TOTAL_SLOTS }, (_, i) => i);
   readonly freezerSlots = FREEZER_SLOTS;
 
@@ -38,7 +44,7 @@ export class Fridge implements OnInit {
   // The slot the dragged food is hovering over, so it can be highlighted.
   readonly dropSlot = signal<number | null>(null);
 
-  // Add food form fields (only the name is required).
+  // Add / Edit food form fields (only the name is required).
   name = '';
   quantity = 1;
   expiryDate = '';
@@ -88,6 +94,46 @@ export class Fridge implements OnInit {
     if (days === 0) return 'Expires today';
     if (days === 1) return 'Expires tomorrow';
     return `Expires in ${days} days`;
+  }
+
+  // ---------- Expiring soon summary ----------
+
+  // Food that needs using up: expires within 3 days (including today).
+  soonCount() {
+    return this.foods().filter(food => {
+      const fresh = this.freshness(food);
+      return fresh === 'use-today' || fresh === 'use-soon';
+    }).length;
+  }
+
+  // Food that is already past its expiry date.
+  expiredCount() {
+    return this.foods().filter(food => this.freshness(food) === 'expired').length;
+  }
+
+  // Should this food stay bright while the highlight is on?
+  isUrgent(food: FoodItem) {
+    const fresh = this.freshness(food);
+    return fresh === 'use-today' || fresh === 'use-soon' || fresh === 'expired';
+  }
+
+  // The words on the summary button, e.g. "2 expiring soon, 1 expired".
+  summaryText() {
+    const parts = [];
+    if (this.soonCount() > 0) parts.push(`${this.soonCount()} expiring soon`);
+    if (this.expiredCount() > 0) parts.push(`${this.expiredCount()} expired`);
+    return parts.join(', ');
+  }
+
+  // Faded out while the highlight is on. Once nothing is urgent any more
+  // (say you ate the last one), the summary button is gone, so nothing is faded either.
+  isDimmed(food: FoodItem) {
+    const anythingUrgent = this.soonCount() > 0 || this.expiredCount() > 0;
+    return this.highlightUrgent() && anythingUrgent && !this.isUrgent(food);
+  }
+
+  toggleHighlight() {
+    this.highlightUrgent.set(!this.highlightUrgent());
   }
 
   // The food sitting in a slot, or undefined if the slot is empty.
@@ -153,32 +199,80 @@ export class Fridge implements OnInit {
     this.selected.set(null);
   }
 
-  // ---------- Add food form ----------
+  // ---------- Add / Edit food form ----------
 
+  // The + Add food button: an empty form.
   openForm() {
+    this.closeForm();
+    this.showForm.set(true);
+  }
+
+  // The Edit button in the details: the same form, filled in with this food.
+  openEdit(food: FoodItem) {
+    this.editingFood.set(food);
+    this.name = food.name;
+    this.quantity = food.quantity;
+    this.expiryDate = food.expiryDate ?? '';
+    this.notes = food.notes ?? '';
+
+    this.selected.set(null);
     this.showForm.set(true);
   }
 
   // Close the form and reset it for next time.
   closeForm() {
     this.showForm.set(false);
+    this.editingFood.set(null);
     this.name = '';
     this.quantity = 1;
     this.expiryDate = '';
     this.notes = '';
   }
 
-  onAdd() {
-    this.message.set('');
-    this.isSaving.set(true);
+  // The form's Save / Add button. Editing or adding, depending on editingFood.
+  onSubmit() {
+    if (this.editingFood()) {
+      this.onSaveEdit();
+    } else {
+      this.onAdd();
+    }
+  }
 
-    this.foodService.add({
+  // What's typed in the form, ready to send to the server.
+  private formValues() {
+    return {
       name: this.name,
       quantity: this.quantity,
       // An empty date box gives '' - send null so the server knows "no date".
       expiryDate: this.expiryDate || null,
       notes: this.notes || null
-    }).subscribe({
+    };
+  }
+
+  onSaveEdit() {
+    const food = this.editingFood()!;
+    this.message.set('');
+    this.isSaving.set(true);
+
+    this.foodService.update(food.id, this.formValues()).subscribe({
+      next: updated => {
+        // Swap the old version of this food for the updated one.
+        this.foods.set(this.foods().map(f => f.id === updated.id ? updated : f));
+        this.isSaving.set(false);
+        this.closeForm();
+      },
+      error: () => {
+        this.message.set(`Could not save ${food.name}. Check the details and try again.`);
+        this.isSaving.set(false);
+      }
+    });
+  }
+
+  onAdd() {
+    this.message.set('');
+    this.isSaving.set(true);
+
+    this.foodService.add(this.formValues()).subscribe({
       next: newFood => {
         // Put the new food at the end of the list, no need to reload everything.
         this.foods.set([...this.foods(), newFood]);
@@ -193,7 +287,21 @@ export class Fridge implements OnInit {
     });
   }
 
+  // ---------- Eaten / Thrown out ----------
+
+  // Takes the food out of the fridge. The server keeps a record for the profile page.
+  onMarkAs(food: FoodItem, status: 'Eaten' | 'Wasted') {
+    this.foodService.changeStatus(food.id, status).subscribe({
+      next: () => {
+        this.foods.set(this.foods().filter(f => f.id !== food.id));
+        this.selected.set(null);
+      },
+      error: () => this.message.set(`Could not update ${food.name}.`)
+    });
+  }
+
   // ---------- Delete ----------
+  // For mistakes: removes the food completely, it isn't counted anywhere.
 
   onDelete(food: FoodItem) {
     this.foodService.delete(food.id).subscribe({

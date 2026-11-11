@@ -12,4 +12,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
     // The "FoodItems" table you made in pgAdmin.
     // EF matches it by name: this property is called FoodItems, so it uses the FoodItems table.
     public DbSet<FoodItem> FoodItems => Set<FoodItem>();
+
+    // The "UserProfiles" table (display name and bio), also made in pgAdmin.
+    public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
 }

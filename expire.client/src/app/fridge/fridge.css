@@ -74,6 +74,16 @@ header button {
   justify-self: end;
 }
 
+/* "2 expiring soon, 1 expired" - looks like a link, not a black button */
+.summary,
+.summary:hover {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--today);
+  text-decoration: underline;
+}
+
 /* "Click a food to see its details..." - under the Add food button */
 .hint {
   font-size: 0.875rem;
@@ -234,6 +244,11 @@ input {
   user-select: none; /* stops the food name getting highlighted instead of dragged */
 }
 
+/* Faded out while the "expiring soon" summary is clicked */
+.slot.dimmed {
+  opacity: 0.25;
+}
+
 /* The slot your dragged food will land in */
 .slot.drop-here {
   outline: 2px dashed var(--black);
@@ -378,6 +393,8 @@ dd {
 
   .details-buttons button {
     flex: 1;
+    padding: 0.5rem; /* less padding than other buttons, so "Thrown out" fits on one line */
+    white-space: nowrap;
   }
 
 /* ---------- Smaller screens: everything in one column ---------- */

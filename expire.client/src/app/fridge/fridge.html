@@ -5,7 +5,20 @@
   <h1>Your Fridge</h1>
   <button type="button" (click)="openForm()">+ Add food</button>
 
-  <p>Welcome back! Let's keep your food fresh.</p>
+  <!-- Welcome, plus a summary of food that needs using up.
+       Clicking the summary dims everything else in the fridge. -->
+  <p>
+    Welcome back!
+    @if (soonCount() > 0 || expiredCount() > 0) {
+      <button type="button" class="summary" (click)="toggleHighlight()">
+        {{ highlightUrgent() ? 'Show all food' : summaryText() }}
+      </button>
+    } @else if (foods().length > 0) {
+      Everything in your fridge is fresh.
+    } @else {
+      Let's keep your food fresh.
+    }
+  </p>
   <p class="hint">
     @if (foods().length === 0) {
       Your fridge is empty. Add some food to get started.
@@ -50,13 +63,20 @@
         <dd>{{ food.notes || '-' }}</dd>
       </dl>
 
+      <!-- Eaten / Thrown out take it out of the fridge and count it on your profile -->
       <div class="details-buttons">
+        <button type="button" (click)="onMarkAs(food, 'Eaten')">Eaten</button>
+        <button type="button" (click)="onMarkAs(food, 'Wasted')">Thrown out</button>
+      </div>
+
+      <div class="details-buttons">
+        <button type="button" class="secondary" (click)="openEdit(food)">Edit</button>
         <button type="button" class="delete" (click)="onDelete(food)">Delete</button>
       </div>
     </aside>
   }
 
-  <!-- Middle: the case, 50 slots, the top 15 are the freezer -->
+  <!-- Middle: the case, 45 slots, the top 15 are the freezer -->
   <div class="case">
     <h3>Freezer</h3>
 
@@ -74,6 +94,7 @@
              class="slot {{ freshness(food) }}"
              [class.selected]="selected()?.id === food.id"
              [class.drop-here]="dropSlot() === slot"
+             [class.dimmed]="isDimmed(food)"
              (click)="$event.stopPropagation(); select(food)"
              (dragstart)="onDragStart($event, food)"
              (dragover)="onDragOver($event, slot)"
@@ -98,10 +119,10 @@
     }
   </div>
 
-  <!-- Right: the add food form, only while it's open -->
+  <!-- Right: the add / edit food form, only while it's open -->
   @if (showForm()) {
-    <form #addForm="ngForm" (ngSubmit)="onAdd()">
-      <h2>Add food</h2>
+    <form #addForm="ngForm" (ngSubmit)="onSubmit()">
+      <h2>{{ editingFood() ? 'Edit food' : 'Add food' }}</h2>
 
       <label>
         Name
@@ -129,7 +150,11 @@
       <div class="form-buttons">
         <button type="button" class="secondary" (click)="closeForm()">Cancel</button>
         <button type="submit" [disabled]="addForm.invalid || isSaving()">
-          {{ isSaving() ? 'Adding...' : 'Add' }}
+          @if (editingFood()) {
+            {{ isSaving() ? 'Saving...' : 'Save' }}
+          } @else {
+            {{ isSaving() ? 'Adding...' : 'Add' }}
+          }
         </button>
       </div>
     </form>

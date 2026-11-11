@@ -16,10 +16,16 @@ namespace Expire.Server.Controllers;
 [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
 public class FoodController : ControllerBase
 {
-    // The fridge has 50 slots (5 across x 10 down), numbered 0 to 49.
-    // Slots 0-14 are the freezer (top 3 rows), slots 15-49 are the fridge.
-    public const int TotalSlots = 50;
+    // The fridge has 45 slots (5 across x 9 down), numbered 0 to 44.
+    // Slots 0-14 are the freezer (top 3 rows), slots 15-44 are the fridge.
+    public const int TotalSlots = 45;
     public const int FreezerSlots = 15;
+
+    // What a food's Status can be. Only "Available" food is in the fridge.
+    // Eaten and Wasted food stays in the table so the profile page can count it.
+    public const string Available = "Available";
+    public const string Eaten = "Eaten";
+    public const string Wasted = "Wasted";
 
     private readonly AppDbContext _db;
     private readonly UserManager<IdentityUser> _users;
@@ -38,7 +44,7 @@ public class FoodController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var foods = await _db.FoodItems
-            .Where(food => food.UserId == CurrentUserId)
+            .Where(food => food.UserId == CurrentUserId && food.Status == Available)
             .OrderBy(food => food.Slot)
             .ToListAsync();
 
@@ -49,9 +55,9 @@ public class FoodController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Add(NewFood request)
     {
-        // Which slots already have food in them?
+        // Which slots already have food in them? (Eaten or wasted food doesn't take up a slot.)
         var usedSlots = await _db.FoodItems
-            .Where(food => food.UserId == CurrentUserId)
+            .Where(food => food.UserId == CurrentUserId && food.Status == Available)
             .Select(food => food.Slot)
             .ToListAsync();
 
@@ -86,7 +92,7 @@ public class FoodController : ControllerBase
         if (food == null) return NotFound();
 
         var otherFood = await _db.FoodItems.FirstOrDefaultAsync(
-            f => f.UserId == CurrentUserId && f.Slot == request.Slot && f.Id != id);
+            f => f.UserId == CurrentUserId && f.Status == Available && f.Slot == request.Slot && f.Id != id);
 
         if (otherFood != null)
         {
@@ -99,7 +105,39 @@ public class FoodController : ControllerBase
         return NoContent();
     }
 
-    // Remove a food from my fridge completely.
+    // Change a food's name, quantity, expiry date or notes (the Edit button).
+    // It stays in the same slot.
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, NewFood request)
+    {
+        var food = await FindMyFood(id);
+        if (food == null) return NotFound();
+
+        food.Name = request.Name.Trim();
+        food.Quantity = request.Quantity;
+        food.ExpiryDate = request.ExpiryDate;
+        food.Notes = string.IsNullOrWhiteSpace(request.Notes) ? null : request.Notes.Trim();
+
+        await _db.SaveChangesAsync();
+
+        return Ok(food);
+    }
+
+    // Mark a food as eaten or thrown out. It leaves the fridge (its slot is free again),
+    // but the row is kept so the profile page can count it.
+    [HttpPut("{id}/status")]
+    public async Task<IActionResult> ChangeStatus(int id, FoodStatusChange request)
+    {
+        var food = await FindMyFood(id);
+        if (food == null) return NotFound();
+
+        food.Status = request.Status;
+        await _db.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    // Remove a food from my fridge completely (for mistakes - it isn't counted anywhere).
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -112,11 +150,12 @@ public class FoodController : ControllerBase
         return NoContent();
     }
 
-    // Find a food by Id, but only if it belongs to the logged-in user.
+    // Find a food by Id, but only if it belongs to the logged-in user
+    // and is still in their fridge.
     private Task<FoodItem?> FindMyFood(int id)
     {
         return _db.FoodItems.FirstOrDefaultAsync(
-            food => food.Id == id && food.UserId == CurrentUserId);
+            food => food.Id == id && food.UserId == CurrentUserId && food.Status == Available);
     }
 
     // New food goes in the first free fridge slot.
@@ -137,7 +176,7 @@ public class FoodController : ControllerBase
     }
 }
 
-// What the Add food form sends. The limits match the table's column sizes.
+// What the Add food and Edit food forms send. The limits match the table's column sizes.
 public class NewFood
 {
     [Required]
@@ -158,4 +197,12 @@ public class MoveFood
 {
     [Range(0, FoodController.TotalSlots - 1)]
     public int Slot { get; set; }
+}
+
+// What gets sent when you click Eaten or Thrown out.
+public class FoodStatusChange
+{
+    [Required]
+    [RegularExpression("^(Eaten|Wasted)$", ErrorMessage = "Status must be Eaten or Wasted.")]
+    public string Status { get; set; } = "";
 }

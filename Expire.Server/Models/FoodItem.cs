@@ -11,6 +11,6 @@ public class FoodItem
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public string? Notes { get; set; }
 
-    // Where the food sits in the fridge: 0-14 = freezer, 15-49 = fridge.
+    // Where the food sits in the fridge: 0-14 = freezer, 15-44 = fridge.
     public int Slot { get; set; }
 }

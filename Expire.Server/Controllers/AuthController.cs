@@ -81,6 +81,11 @@ public class AuthController : ControllerBase
 
 public class Credentials
 {
+    // The password rules, kept here so ProfileController's "change password" uses the same ones.
+    public const string PasswordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9\p{P}\p{S}]).+$";
+    public const string PasswordPatternMessage =
+        "Password must include uppercase and lowercase letters, and at least one number or symbol.";
+
     [Required]
     [StringLength(256)]
     public string Username { get; set; } = "";
@@ -88,8 +93,6 @@ public class Credentials
     [Required]
     [StringLength(128, MinimumLength = 8,
         ErrorMessage = "Password must be between 8 and 128 characters.")]
-    [RegularExpression(
-        @"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9\p{P}\p{S}]).+$",
-        ErrorMessage = "Password must include uppercase and lowercase letters, and at least one number or symbol.")]
+    [RegularExpression(PasswordPattern, ErrorMessage = PasswordPatternMessage)]
     public string Password { get; set; } = "";
 }

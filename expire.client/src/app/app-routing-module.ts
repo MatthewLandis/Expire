@@ -5,8 +5,6 @@ import { Login } from './auth/login';
 import { Signup } from './auth/signup';
 import { Profile } from './profile/profile';
 import { Fridge } from './fridge/fridge';
-import { Themes } from './themes/themes';
-import { Settings } from './settings/settings';
 import { authGuard, guestGuard } from './auth/auth.guard';
 
 // authGuard  = logged-in users only
@@ -17,8 +15,10 @@ const routes: Routes = [
   { path: 'signup', component: Signup, title: 'Sign Up | Expire', canActivate: [guestGuard] },
   { path: 'fridge', component: Fridge, title: 'My Fridge | Expire', canActivate: [authGuard] },
   { path: 'profile', component: Profile, title: 'My Profile | Expire', canActivate: [authGuard] },
-  { path: 'themes', component: Themes, title: 'Themes | Expire', canActivate: [authGuard] },
-  { path: 'settings', component: Settings, title: 'Settings | Expire', canActivate: [authGuard] }
+
+  // Any other address (a typo, an old link) goes back to the home page.
+  // This has to stay last: the router uses the first route that matches.
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
