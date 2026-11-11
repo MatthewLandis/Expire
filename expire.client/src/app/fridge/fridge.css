@@ -23,6 +23,7 @@ button {
   background: var(--black);
   color: var(--white);
   font-weight: bold;
+  text-align: center;
   transition: background 0.2s, color 0.2s;
 }
 
@@ -40,7 +41,6 @@ button {
 .delete {
   background: var(--grey);
   color: var(--black);
-  text-align: center;
 }
 
   .secondary:hover {

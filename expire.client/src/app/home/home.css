@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* center the column vertically when there's spare room */
   padding: 2.5rem 1.5rem;
   text-align: center;
 }
@@ -44,7 +45,7 @@ h1 + p {
   /* Cards hug the fridge and overlap its edge a little,
      so the food looks like it's coming out of the fridge */
   article {
-    width: 13rem;
+    width: 15rem;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -66,49 +67,57 @@ h1 + p {
       margin-left: -2rem;
     }
 
-  .food-icon {
-    font-size: 2.5rem;
-  }
-
   h2 {
     margin-bottom: 0.5rem;
     font-size: 1.125rem;
   }
 
-/* Expiry badges - colors come from the shared food variables */
-.expiry {
-  display: inline-flex;
+/* The colored square with the first letter - same as a food slot on the fridge page */
+.letter {
+  flex-shrink: 0;
+  display: flex;
   align-items: center;
-  gap: 0.25rem;
+  justify-content: center;
+  width: 3.5rem;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  background: var(--food-bg);
+  color: var(--food-color);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* "Expires in 2 days" - same as the badge in the fridge page's details window */
+.badge {
   padding: 0.25rem 0.75rem;
   border-radius: var(--radius-lg);
+  background: var(--food-bg);
+  color: var(--food-color);
   font-size: 0.75rem;
   font-weight: bold;
   white-space: nowrap;
 }
 
-  .expiry i {
-    font-size: 1rem;
-  }
-
+/* Freshness colors - just like the fridge page, each class sets two variables
+   and the letter tile and badge use them */
 .fresh {
-  background: var(--fresh-bg);
-  color: var(--fresh);
+  --food-color: var(--fresh);
+  --food-bg: var(--fresh-bg);
 }
 
 .use-soon {
-  background: var(--soon-bg);
-  color: var(--soon);
+  --food-color: var(--soon);
+  --food-bg: var(--soon-bg);
 }
 
 .use-today {
-  background: var(--today-bg);
-  color: var(--today);
+  --food-color: var(--today);
+  --food-bg: var(--today-bg);
 }
 
 .expired {
-  background: var(--expired-bg);
-  color: var(--expired);
+  --food-color: var(--expired);
+  --food-bg: var(--expired-bg);
 }
 
 small {

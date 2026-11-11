@@ -8,36 +8,38 @@
   <a routerLink="/signup">Get started →</a>
 }
 
-<!-- The fridge goes first. The grid then fills the cards into the
+<!-- Each card looks like a food on the real fridge page:
+     the colored letter tile and the "Expires in..." badge, with the same words.
+     The fridge goes first. The grid then fills the cards into the
      empty spots in reading order: top-left, top-right, bottom-left, bottom-right -->
 <div class="fridge-scene">
   <img src="/imgs/fridge.png" alt="fridge logo" />
-  <article>
-    <span class="food-icon">🥬</span>
+  <article class="use-today">
+    <span class="letter">S</span>
     <div>
       <h2>Spinach</h2>
-      <span class="expiry use-today"><i class='bx bx-time-five'></i> Use today</span>
+      <span class="badge">Expires today</span>
     </div>
   </article>
-  <article>
-    <span class="food-icon">🥛</span>
+  <article class="use-soon">
+    <span class="letter">M</span>
     <div>
       <h2>Milk</h2>
-      <span class="expiry use-soon"><i class='bx bx-time-five'></i> 2 days left</span>
+      <span class="badge">Expires in 2 days</span>
     </div>
   </article>
-  <article>
-    <span class="food-icon">🥕</span>
+  <article class="fresh">
+    <span class="letter">C</span>
     <div>
       <h2>Carrots</h2>
-      <span class="expiry fresh"><i class='bx bx-check'></i> 5 days left</span>
+      <span class="badge">Expires in 5 days</span>
     </div>
   </article>
-  <article>
-    <span class="food-icon">🍎</span>
+  <article class="expired">
+    <span class="letter">A</span>
     <div>
       <h2>Apple</h2>
-      <span class="expiry expired"><i class='bx bx-trash'></i> Expired</span>
+      <span class="badge">Expired 2 days ago</span>
     </div>
   </article>
 </div>
