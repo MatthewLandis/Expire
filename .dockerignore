@@ -1,0 +1,9 @@
+# Folders the Docker build makes for itself, so don't copy them in
+**/node_modules
+**/bin
+**/obj
+**/dist
+**/.angular
+.vs
+.claude
+.git
